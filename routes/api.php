@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\HealthController;
 use App\Http\Controllers\Api\V1\Auth\AuthController;
 use App\Http\Controllers\Api\V1\Client\ClientController;
+use App\Http\Controllers\Api\V1\Sale\SaleController;
 
 Route::prefix('v1')->group(function () {
 
@@ -16,6 +17,7 @@ Route::prefix('v1')->group(function () {
         Route::post('/auth/logout', [AuthController::class, 'logout']);
 
         Route::apiResource('clients', ClientController::class);
+        Route::apiResource('sales', SaleController::class);
     });
 
 });

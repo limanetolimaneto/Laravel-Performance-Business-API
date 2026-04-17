@@ -12,7 +12,6 @@ class Client extends Model
         'email',
         'phone',
         'total_spent',
-        'index',
     ];
 
 }
