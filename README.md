@@ -241,7 +241,7 @@ Authentication is implemented using Laravel Sanctum’s token-based system.
 
 **REQUEST LIFECYCLE**
 
-[^1]: A client sends a request to a protected endpoint like: 
+[^1]:A client sends a request to a protected endpoint like: 
 
 ```bash
 GET /api/clients
