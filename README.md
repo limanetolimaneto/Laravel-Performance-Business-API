@@ -241,6 +241,83 @@ Authentication is implemented using Laravel Sanctum’s token-based system.
 
 **REQUEST LIFECYCLE**
 
+- Laravel Sanctum is officially designed as a lightweight authentication system for SPAs and simple APIs, making it a strong fit for modular business APIs like this project
+
+- When a client sends a request to a protected endpoint such as:
+```bash
+GET /api/clients
+Authorization: Bearer {token}
+Accept: application/json
+```
+
+1. Entry Point — public/index.php
+
+    - Every HTTP request starts in public/index.php, the main entry point of the Laravel application.
+    - Here, the framework is bootstrapped and the application lifecycle begins.
+
+2. Application Bootstrap — bootstrap/app.php
+
+    - Laravel initializes the service container, loads service providers, and registers middleware.
+    - At this stage, authentication services such as Sanctum are prepared to participate in the request pipeline.
+
+3. Route Resolution — routes/api.php
+
+    - Laravel checks the API route definitions and determines whether the requested endpoint requires authentication.
+    - Protected routes are grouped using:
+```bash
+Route::middleware('auth:sanctum')->group(function () {
+Route::apiResource('clients', ClientController::class);
+Route::apiResource('sales', SalesController::class);
+Route::apiResource('products', ProductController::class);
+});
+```
+
+**At this moment, Laravel knows the request must be validated by Sanctum before reaching the controller**
+
+4. Authentication Layer — auth:sanctum
+
+    - This is where Sanctum enters the request lifecycle.
+    - The middleware validates:
+        - if a Bearer token exists
+        - if the token is valid
+        - if the token belongs to an authenticated user
+        - if the token is still authorized to access the resource
+
+**Laravel Sanctum supports this token-based flow for API authentication by issuing personal access tokens through methods like createToken() .**
+
+- If validation fails, Laravel immediately returns:
+```Json
+401 Unauthorized
+```
+- The controller is never executed.
+
+5. Controller Execution
+
+    - Only authenticated requests reach the business layer:
+        - ClientController
+        - SalesController
+        - ProductController
+        - SupplierController
+
+**This keeps authentication separated from domain logic, improving maintainability and preserving clean architecture principles.**
+
+
+**WHY THIS DESIGN MATTERS**
+
+- Instead of validating authentication manually inside controllers, this project uses Laravel’s middleware pipeline to enforce security at the framework level.
+
+    - This provides:
+        - centralized access control;
+        - cleaner controllers;
+        - stateless API security;
+        - easier scalability;
+        - stronger architectural consistency;
+
+---
+
+
+
+
 1. A client sends a request to a protected endpoint like: 
 
 ```bash
