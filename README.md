@@ -237,9 +237,7 @@ Performance optimization is not only about relationships (with()), but also abou
 
 #### 📌 TOKEN-BASED AUTHENTICATION
 
-> Authentication is implemented using Laravel Sanctum’s token-based system.
-
-**Request Lifecycle: Where Sanctum Enters**
+**Request Lifecyle: Where Sanctum Enters**
 
 Before discussing tokens, login endpoints, or protected routes, it is important to understand how a request travels inside Laravel and where Laravel Sanctum becomes responsible for authentication.
 
