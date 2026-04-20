@@ -269,6 +269,7 @@ Route::middleware('auth:sanctum')->group(function () {
     - if the token is valid
     - if the token belongs to an authenticated user
     - if the token still has permission to access the resource
+    
 *If validation fails: 401 Unauthorized is returned immediately. The controller is never executed.*
 
 6. Controller Execution. Only authenticated requests reach the business logic:
