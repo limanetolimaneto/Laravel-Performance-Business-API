@@ -239,9 +239,19 @@ Performance optimization is not only about relationships (with()), but also abou
 
 > Authentication is implemented using Laravel Sanctum’s token-based system.
 
-**REQUEST LIFECYCLE**
+**REQUEST LIFECYCLE: Where Sanctum Enters**
+Before discussing tokens, login endpoints, or protected routes, it is important to understand how a request travels inside Laravel and where Laravel Sanctum becomes responsible for authentication.
 
-> Laravel Sanctum is officially designed as a lightweight authentication system for SPAs and simple APIs, making it a strong fit for modular business APIs like this project
+- This project is a modular Business API composed of independent domains such as:
+    - Clients;
+    - Sales;
+    - Products;
+    - Suppliers;
+    - Authentication;
+
+    > Because these modules expose protected business operations, authentication must happen before any controller logic is executed.
+
+    > Laravel Sanctum is officially designed as a lightweight authentication system for SPAs and simple APIs, making it a strong fit for modular business APIs like this project
 
 When a client sends a request to a protected endpoint such as:
 ```bash
