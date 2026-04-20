@@ -27,10 +27,11 @@
 
 <details>
 <summary>N + 1 QUERY PROBLEM + EAGER LOADING OPTIMIZATION</summary> 
-
+<br>
 <b> Using API Resources without eager loading can silently introduce the N+1 query problem, leading to inefficient database usage and scalability issues.</u>
 
 #### CONTEXT 
+
 - The system exposes a Sales API endpoint, where each Sale is related to a Client.
 - Each SaleResource includes client information:
 
@@ -44,9 +45,11 @@
 
 ```
 
+<hr>
+
 #### ❌ SCENARIO 1 - Lazy Loading (N + 1 Problem)
 
-- Implementation
+Implementation
 
 <i>app/Services/SaleService.php</i>
 
@@ -54,27 +57,29 @@
 return Sale::latest()->paginate(10);
 ```
 
-- Behavior
+Behavior
 
-When the SaleResource accesses: $this->client
-Laravel resolves the relationship using lazy loading, executing additional queries per item.
+- When the SaleResource accesses: $this->client
+- Laravel resolves the relationship using lazy loading, executing additional queries per item.
 
-- Query Breakdown
+Query Breakdown
     
-1 query → fetch sales
-N queries → fetch clients (one per sale)
+- 1 query → fetch sales
+- N queries → fetch clients (one per sale)
 
-- Problem
+Problem
 
-This approach introduces a linear growth in database queries (O(n)), which results in:
-- unnecessary database load
-- poor scalability under high data volume
-- hidden performance issues inside serialization layer
+- This approach introduces a linear growth in database queries (O(n)), which results in:
+    unnecessary database load
+    poor scalability under high data volume
+    hidden performance issues inside serialization layer
+
+<hr>
 
 #### ✅ SCENARIO 2 — Optimized Solution (Eager Loading)
 
-- Implementation
-    
+Implementation 
+
 <i>app/Models/Sale.php</i>
 
 ```bash
@@ -90,18 +95,18 @@ public function client()
 return Sale::with('client')->latest()->paginate(10);
 ```
 
-- Behavior
+Behavior
+- All required relationships are loaded in advance using eager loading, avoiding additional queries during serialization.
 
-All required relationships are loaded in advance using eager loading, avoiding additional queries during serialization.
+Query Breakdown
+- 1 query → fetch sales
+- 1 query → fetch clients
 
-- Query Breakdown
--- 1 query → fetch sales
--- 1 query → fetch clients
-
-- Result
-
-This approach reduces relationship query complexity from:   O(n) → O(1)
+Result
+- This approach reduces relationship query complexity from:   O(n) → O(1)
 ensuring predictable performance regardless of dataset size.
+
+<hr>
 
 #### KEY INSIGHT
 
