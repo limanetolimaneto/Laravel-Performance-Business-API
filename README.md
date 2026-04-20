@@ -117,7 +117,7 @@ ensuring predictable performance regardless of dataset size.
 
 - Eager Test
 ![Eager Loading Debugbar](screenshots/eager-test.png)
-<i>...</i>
+<i>As shown in Debugbar, query count remains constant regardless of dataset size, improving scalability and reducing unnecessary database load.</i>
 
 <hr>
 
