@@ -30,7 +30,9 @@
 <br>
 Using API Resources without eager loading can silently introduce the N+1 query problem, leading to inefficient database usage and scalability issues.
 <br>
-📌 <b>CONTEXT</b>
+
+<fieldset style="background-color:darkgray">
+    <legend> CONTEXT </legend>
 
 The system exposes a Sales API endpoint, where each Sale is related to a Client.
 Each SaleResource includes client information:
@@ -43,7 +45,8 @@ Each SaleResource includes client information:
     'name' => $this->client->name,
 ],
 ```
-<hr>
+</fieldset>
+<br>
 ❌ <b>SCENARIO 1 - Lazy Loading (N + 1 Problem)</b>
 
 - Implementation
@@ -54,6 +57,7 @@ Each SaleResource includes client information:
 return Sale::latest()->paginate(10);
 ```
 <br>
+
 - Behavior
 
 When the SaleResource accesses: $this->client
