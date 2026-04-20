@@ -241,21 +241,19 @@ Authentication is implemented using Laravel Sanctum’s token-based system.
 
 **REQUEST LIFECYCLE**
 
-- 1. A client sends a request to a protected endpoint like: 
+1. A client sends a request to a protected endpoint like: 
 
 ```bash
 GET /api/clients
 Authorization: Bearer {token}
 ```
 
-- 2. The application entry point is *public/index.php*
+2. The application entry point is *public/index.php*
 
-- 3. The application container is initialized by *bootstrap/app.php*> and core services are loaded. 
-
+3. The application container is initialized by *bootstrap/app.php*> and core services are loaded. 
     - Laravel boots the framework with service providers and middleware registration.
 
-- 4. The request gets at *routes/api.php* where Laravel checks the API route definitions.
-
+4. The request gets at *routes/api.php* where Laravel checks the API route definitions.
     - Protected routes are grouped using:
 
 ```bash
@@ -266,14 +264,14 @@ Route::middleware('auth:sanctum')->group(function () {
 
     - At this point, Laravel knows that the request must pass through Sanctum authentication before reaching the controller.
 
-- 5. The midleware auth:sanctum validate:
+5. The midleware auth:sanctum validate:
     - if a Bearer token exists
     - if the token is valid
     - if the token belongs to an authenticated user
     - if the token still has permission to access the resource
 *If validation fails: 401 Unauthorized is returned immediately. The controller is never executed.*
 
-- 6. Controller Execution. Only authenticated requests reach the business logic:
+6. Controller Execution. Only authenticated requests reach the business logic:
     - ClientController, SalesController, ProductController, SupplierController...
     - This keeps authentication separated from domain logic, improving maintainability and system design.
 
@@ -283,6 +281,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
 - This provides:
     - Centralized access control, cleaner controllers, better scalability, safer route protection, stronger architectural consistency.
+
+---
+
+
+
+
 
 Login 
 - API tokens instead of session cookies
