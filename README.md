@@ -275,13 +275,13 @@ Understanding how a request travels inside Laravel and where Laravel Sanctum bec
 
 **Why This Design Matters**
 
-    - Instead of validating authentication manually inside controllers, this project uses Laravel’s middleware pipeline to enforce security at the framework level.
-    - This provides:
-        - centralized access control;
-        - cleaner controllers;
-        - stateless API security;
-        - easier scalability;
-        - stronger architectural consistency;
+- Instead of validating authentication manually inside controllers, this project uses Laravel’s middleware pipeline to enforce security at the framework level.
+- This provides:
+    - centralized access control;
+    - cleaner controllers;
+    - stateless API security;
+    - easier scalability;
+    - stronger architectural consistency;
 
 
 </details>
