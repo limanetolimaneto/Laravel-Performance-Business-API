@@ -13,16 +13,6 @@ class ClientController extends Controller
 {
     public function __construct(private ClientService $service) {}
 
-    /*
-    |--------------------------------------------------------------------------
-    | Performance Note
-    |--------------------------------------------------------------------------
-    |
-    | See README:
-    | Section 1 - N+1 Query Problem
-    | Section 2 - Eager Loading Optimization
-    |
-    */
     public function index()
     {
         return ClientResource::collection(
