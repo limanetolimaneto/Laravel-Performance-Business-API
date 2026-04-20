@@ -237,11 +237,11 @@ Performance optimization is not only about relationships (with()), but also abou
 
 #### 📌 TOKEN-BASED AUTHENTICATION
 
-Authentication is implemented using Laravel Sanctum’s token-based system.
+> Authentication is implemented using Laravel Sanctum’s token-based system.
 
 **REQUEST LIFECYCLE**
 
-Laravel Sanctum is officially designed as a lightweight authentication system for SPAs and simple APIs, making it a strong fit for modular business APIs like this project
+> Laravel Sanctum is officially designed as a lightweight authentication system for SPAs and simple APIs, making it a strong fit for modular business APIs like this project
 
 When a client sends a request to a protected endpoint such as:
 ```bash
@@ -272,7 +272,7 @@ Route::apiResource('products', ProductController::class);
 });
 ```
 
-*At this moment, Laravel knows the request must be validated by Sanctum before reaching the controller*
+> At this moment, Laravel knows the request must be validated by Sanctum before reaching the controller
 
 4. Authentication Layer — auth:sanctum
 
@@ -283,7 +283,7 @@ Route::apiResource('products', ProductController::class);
         - if the token belongs to an authenticated user
         - if the token is still authorized to access the resource
 
-*Laravel Sanctum supports this token-based flow for API authentication by issuing personal access tokens through methods like createToken() .*
+> Laravel Sanctum supports this token-based flow for API authentication by issuing personal access tokens through methods like createToken() .
 
 If validation fails, Laravel immediately returns:
 ```Json
@@ -299,12 +299,12 @@ The controller is never executed.
         - ProductController
         - SupplierController
 
-*This keeps authentication separated from domain logic, improving maintainability and preserving clean architecture principles.*
+> This keeps authentication separated from domain logic, improving maintainability and preserving clean architecture principles.
 
 
 **WHY THIS DESIGN MATTERS**
 
-Instead of validating authentication manually inside controllers, this project uses Laravel’s middleware pipeline to enforce security at the framework level.
+> Instead of validating authentication manually inside controllers, this project uses Laravel’s middleware pipeline to enforce security at the framework level.
 
     - This provides:
         - centralized access control;
