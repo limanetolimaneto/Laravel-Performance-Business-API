@@ -262,7 +262,7 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 ```
 
-    - At this point, Laravel knows that the request must pass through Sanctum authentication before reaching the controller.
+- At this point, Laravel knows that the request must pass through Sanctum authentication before reaching the controller.
 
 5. The midleware auth:sanctum validate:
     - if a Bearer token exists
