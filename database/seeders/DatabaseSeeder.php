@@ -6,6 +6,8 @@ namespace Database\Seeders;
 use App\Models\User;
 use App\Models\Client;
 use App\Models\Sale;
+use App\Models\Supplier;
+use App\Models\Product;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -25,8 +27,40 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Client::factory(10)->create();
+
+        Supplier::factory(6)->create();
+
+        $products = [ 'mouse' => '50.00' ,'keyboard' => '200.00','laptop' => '8000.00','router' => '450.00','charger' => '300.00',];
+        foreach ($products as $key => $value) {
+            Product::factory()->create([
+                'supplier_id' => Supplier::pluck('id')->random(),
+                'name' => $key,
+                'price' => $value,
+            ]);
+            
+        }
+
+        $sales = Sale::factory(10)->create();
         
-        Sale::factory(1000)->create();
+        foreach ($sales as $sale) {
+            $total_amount = 0;
+            $q1 = fake()->numberBetween(1, 4);
+            $products = Product::inRandomOrder()->take($q1)->get();
+            foreach ($products as $product) {
+                $q2 = fake()->numberBetween(1, 4);
+                $total_amount += $product->price * $q2;
+                DB::table('product_sale')->insert([
+                    'product_id' => $product->id,
+                    'sale_id' => $sale->id,
+                    'quantity' => $q2,
+                    'amount' => $product->price * $q2,
+                ]);
+            }
+            
+            $sale->update([
+                    'total_amount' => $total_amount
+            ]);
+        }
 
         // SEE README → D.S_2 
 

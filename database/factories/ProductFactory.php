@@ -3,12 +3,12 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\Client;
+use App\Models\Supplier;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Sale>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
  */
-class SaleFactory extends Factory
+class ProductFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,8 +18,7 @@ class SaleFactory extends Factory
     public function definition(): array
     {
         return [
-            'client_id' => Client::pluck('id')->random(),
-            'total_amount' => 0,
+            
         ];
     }
 }
