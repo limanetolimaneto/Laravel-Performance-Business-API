@@ -21,10 +21,12 @@
 ...
 
 
-## DEMONSTRATION SCENARIOS D.S_X
+## DEMONSTRATION SCENARIOS (D.S)
 
-### <details>
-<summary>D.S_1  →   N + 1 query problem + Eager Loading Optimization</summary> 
+### D.S_1
+
+<details>
+<summary>N + 1 query problem + Eager Loading Optimization</summary> 
 
     ⚠️  N+1 Query Problem with API Resources
         Using API Resources without eager loading can silently introduce the N+1 query problem, leading to inefficient database usage and scalability issues.
