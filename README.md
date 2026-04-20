@@ -109,6 +109,14 @@ ensuring predictable performance regardless of dataset size.
 
 <hr>
 
+#### DEBUGBAR EVIDENCE
+
+![Lazy Loading Debugbar](screenshots/lazy-test.png)
+
+Repeated queries to the clients table confirm the N+1 issue caused by lazy loading.
+
+<hr>
+
 #### KEY INSIGHT
 
 While execution time differences may be minimal in small datasets, the real impact of eager loading is not latency reduction, but query scalability and database load control.

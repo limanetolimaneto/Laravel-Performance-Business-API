@@ -44,4 +44,19 @@ class SaleService
     {
         return Sale::create($data);
     }
+
+
+
+    public function listLazy()
+    {
+        return Sale::latest()->paginate(10);
+    }
+
+    public function listEager()
+    {
+        return Sale::with('client')
+            ->latest()
+            ->paginate(10);
+    }
+
 }
