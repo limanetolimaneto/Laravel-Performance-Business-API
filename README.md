@@ -235,11 +235,9 @@ Performance optimization is not only about relationships (with()), but also abou
 
 <br>
 
-#### 📌 TOKEN-BASED AUTHENTICATION
+#### 📌 REQUEST LIFECYCLE:
 
-**Request Lifecyle: Where Sanctum Enters**
-
-Understanding how a request travels inside Laravel and where Laravel Sanctum becomes responsible for authentication.
+**Understanding how a request travels inside Laravel**
 
 - This project is a modular Business API composed of independent domains such as Clients, Sales and others;  
     > Because these modules expose protected business operations, authentication must happen before any controller logic is executed.
@@ -283,7 +281,7 @@ Understanding how a request travels inside Laravel and where Laravel Sanctum bec
     - easier scalability;
     - stronger architectural consistency;
 
-#### 📌 How Sanctum Authenticates Requests
+#### 📌 HOW SANCTUM AUTHENTICATES REQUESTS
 
 **Authentication starts during the login process.**
 
@@ -310,7 +308,7 @@ Understanding how a request travels inside Laravel and where Laravel Sanctum bec
 
 **What happens next**
 
-- When the client accesses a protected route such as api/clients
+- When the client accesses a protected route such as GET api/clients
     *routes/api.php*
     ```bash
         ...
@@ -320,7 +318,7 @@ Understanding how a request travels inside Laravel and where Laravel Sanctum bec
     ``` 
     - Laravel checks the Bearer token through: auth:sanctum
         - If the token is valid, the request reaches the controller.
-        - If not '401 Unauthorized' is returned immediately.
+        - If not **401 Unauthorized** is returned immediately.
 
 </details>
 
