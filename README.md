@@ -29,8 +29,8 @@
 <summary>N + 1 QUERY PROBLEM + EAGER LOADING OPTIMIZATION</summary> 
 <br>
 Using API Resources without eager loading can silently introduce the N+1 query problem, leading to inefficient database usage and scalability issues.
-
-📌 <b>Context</b>
+<br>
+📌 <b>CONTEXT</b>
 
 The system exposes a Sales API endpoint, where each Sale is related to a Client.
 Each SaleResource includes client information:
@@ -43,8 +43,8 @@ Each SaleResource includes client information:
     'name' => $this->client->name,
 ],
 ```
-
-❌ <b>Scenario 1 - Lazy Loading (N + 1 Problem)</b>
+<hr>
+❌ <b>SCENARIO 1 - Lazy Loading (N + 1 Problem)</b>
 
 - Implementation
 
@@ -53,25 +53,25 @@ Each SaleResource includes client information:
 ```bash
 return Sale::latest()->paginate(10);
 ```
-
+<br>
 - Behavior
 
 When the SaleResource accesses: $this->client
 Laravel resolves the relationship using lazy loading, executing additional queries per item.
-
+<br>
 - Query Breakdown
     
 1 query → fetch sales
 N queries → fetch clients (one per sale)
-
+<br>
 - Problem
 
 This approach introduces a linear growth in database queries (O(n)), which results in:
 - unnecessary database load
 - poor scalability under high data volume
 - hidden performance issues inside serialization layer
-
-✅ <b> Scenario 2 — Optimized Solution (Eager Loading)</b>
+<hr>
+✅ <b> SCENARIO 2 — Optimized Solution (Eager Loading)</b>
 
 - Implementation
     
@@ -88,22 +88,22 @@ public function client()
 ```bash
 return Sale::with('client')->latest()->paginate(10);
 ```
-
+<br>
 - Behavior
 
 All required relationships are loaded in advance using eager loading, avoiding additional queries during serialization.
-
+<br>
 - Query Breakdown
 
 1 query → fetch sales
 1 query → fetch clients
-
+<br>
 - Result
 
 This approach reduces relationship query complexity from:   O(n) → O(1)
 ensuring predictable performance regardless of dataset size.
-
-🔍 <b>Key Insight</b>
+<hr>
+🔍 <b>KEY INSIGHT</b>
 
 While execution time differences may be minimal in small datasets, the real impact of eager loading is not latency reduction, but query scalability and database load control.
 
