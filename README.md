@@ -250,10 +250,11 @@ Authorization: Bearer {token}
 
 2. The application entry point is *public/index.php*
 
-3. The application container is initialized by *bootstrap/app.php*> and core services are loaded. 
+3. The application container is initialized by *bootstrap/app.php*
+    - The core services are loaded; 
     - Laravel boots the framework with service providers and middleware registration.
 
-4. The request gets at *routes/api.php* where Laravel checks the API route definitions.
+4. The request reaches *routes/api.php* where Laravel checks the API route definitions.
     - Protected routes are grouped using:
 
 ```bash
@@ -262,7 +263,7 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 ```
 
-- At this point, Laravel knows that the request must pass through Sanctum authentication before reaching the controller.
+*At this point, Laravel knows that the request must pass through Sanctum authentication before reaching the controller.*
 
 5. The midleware auth:sanctum validate:
     - if a Bearer token exists
@@ -272,11 +273,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
 *If validation fails: 401 Unauthorized is returned immediately. The controller is never executed.*
 
-6. Controller Execution. Only authenticated requests reach the business logic:
-    - ClientController, SalesController, ProductController, SupplierController...
+6. Only authenticated requests reach the business logic/Controller Execution.
     - This keeps authentication separated from domain logic, improving maintainability and system design.
 
-**Why This Matters**
+**WHY THIS MATTERS ?**
 
 - Instead of validating authentication manually inside controllers, the project uses Laravel’s middleware pipeline to enforce security at the framework level.
 
@@ -288,41 +288,6 @@ Route::middleware('auth:sanctum')->group(function () {
     - Stronger architectural consistency;
 
 ---
-
-
-
-
-
-Login 
-- API tokens instead of session cookies
-- After successful login, the system generates a personal access token using: 'createToken()'
-- This token is returned to the client and must be included in subsequent requests as a Bearer token.
-<i>app/Http/Controllers/Api/V1/Auth/AuthController.php</i>
-
-```bash
-public function login(Request $request)
-{
-    // Validations with Illuminate\Support\Facades\Auth;
-    
-    ...
-    $user = $request->user();
-    $token = $user->createToken('api-token')->plainTextToken;
-    return response()->json([
-            'user' => $user,
-            'token' => $token
-        ]);
-}
-```
-
-
-
-Centralized Middleware Protection (auth:sanctum)
-
-- All sensitive routes are grouped under the auth:sanctum middleware
-- Only requests with valid tokens can access business logic endpoints
-
-
-
 
 </details>
 
