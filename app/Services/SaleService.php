@@ -8,8 +8,43 @@ class SaleService
 {
     public function list()
     {
-        // PROPOSITALMENTE NÃO OTIMIZADO
-        return Sale::query()->paginate(10);
+        // SEE README → D.S_1 
+
+            /*
+            |--------------------------------------------------------------------------
+            | N + 1 query problem
+            |--------------------------------------------------------------------------
+            |
+            | Problem:
+            | SaleResource accesses $sale->client
+            | without eager loading.
+            |
+            | Result:
+            | 1 query for sales + N queries for clients
+            |
+            | Uncomment below to test using Laravel Debugbar.
+            |
+            */
+
+            // return Sale::latest()->paginate(10);
+
+            /*
+            |--------------------------------------------------------------------------
+            | Optimized Solution using Eager Loading
+            |--------------------------------------------------------------------------
+            |
+            | Result:
+            | only 2 queries total
+            |
+            */
+
+        // ==================
+
+        return Sale::with([
+            'client',
+        ])
+        ->latest()
+        ->paginate(10);
     }
 
     public function create(array $data)
