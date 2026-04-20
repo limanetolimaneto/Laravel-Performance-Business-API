@@ -283,28 +283,44 @@ Understanding how a request travels inside Laravel and where Laravel Sanctum bec
     - easier scalability;
     - stronger architectural consistency;
 
-#### 📌 How does Sanctum authenticate?
+#### 📌 How Sanctum Authenticates Requests
 
-**It all starts logging in**
+**Authentication starts during the login process.**
 
-*app/Http/Controllers/Api/V1/Auth/AuthController.php*
+- When valid credentials are submitted, Laravel authenticates the user using:
 
-```bash
-    public function login(Request $request)
-    {
-        ...
-        if (!Auth::attempt($credentials)) {
-            return response()->json([
-                'message' => 'Invalid credentials'
-            ], 401);
+    *app/Http/Controllers/Api/V1/Auth/AuthController.php*
+
+    ```bash
+        public function login(Request $request)
+        {
+            ...
+            if (!Auth::attempt($credentials)) {
+                return response()->json([
+                    'message' => 'Invalid credentials'
+                ], 401);
+            }
+            $user = $request->user();
+            $token = $user->createToken('api-token')->plainTextToken;
+            ...
         }
-        $user = $request->user();
-        $token = $user->createToken('api-token')->plainTextToken;
+    ```
+    >At this point, Laravel Sanctum generates a Personal Access Token associated with the authenticated user
+    >This token is returned to the client and must be included in all subsequent requests using: Authorization: Bearer {token}
+
+**What happens next**
+
+- When the client accesses a protected route such as api/clients
+    *routes/api.php*
+    ```bash
         ...
-    }
-```
-
-
+        Route::middleware('auth:sanctum')->group(function () {
+            Route::apiResource('clients', ClientController::class);
+        ...
+    ``` 
+    - Laravel checks the Bearer token through: auth:sanctum
+        - If the token is valid, the request reaches the controller.
+        - If not '401 Unauthorized' is returned immediately.
 
 </details>
 
