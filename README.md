@@ -252,36 +252,37 @@ Authorization: Bearer {token}
 
 - 3. The application container is initialized by *bootstrap/app.php*> and core services are loaded. 
 
-    Laravel boots the framework with service providers and middleware registration.
+    - Laravel boots the framework with service providers and middleware registration.
 
-[^4]: The request gets at *routes/api.php* where Laravel checks the API route definitions.
+- 4. The request gets at *routes/api.php* where Laravel checks the API route definitions.
 
-> Protected routes are grouped using:
+    - Protected routes are grouped using:
 
 ```bash
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('clients', ClientController::class);
 });
 ```
-> At this point, Laravel knows that the request must pass through Sanctum authentication before reaching the controller.
 
-[^5]: The midleware auth:sanctum validate:
-> if a Bearer token exists
-> if the token is valid
-> if the token belongs to an authenticated user
-> if the token still has permission to access the resource
+    - At this point, Laravel knows that the request must pass through Sanctum authentication before reaching the controller.
+
+- 5. The midleware auth:sanctum validate:
+    - if a Bearer token exists
+    - if the token is valid
+    - if the token belongs to an authenticated user
+    - if the token still has permission to access the resource
 *If validation fails: 401 Unauthorized is returned immediately. The controller is never executed.*
 
-[^6]: Controller Execution. Only authenticated requests reach the business logic:
-> ClientController, SalesController, ProductController, SupplierController...
-> This keeps authentication separated from domain logic, improving maintainability and system design.
+- 6. Controller Execution. Only authenticated requests reach the business logic:
+    - ClientController, SalesController, ProductController, SupplierController...
+    - This keeps authentication separated from domain logic, improving maintainability and system design.
 
 **Why This Matters**
 
 - Instead of validating authentication manually inside controllers, the project uses Laravel’s middleware pipeline to enforce security at the framework level.
 
 - This provides:
-> Centralized access control, cleaner controllers, better scalability, safer route protection, stronger architectural consistency.
+    - Centralized access control, cleaner controllers, better scalability, safer route protection, stronger architectural consistency.
 
 Login 
 - API tokens instead of session cookies
