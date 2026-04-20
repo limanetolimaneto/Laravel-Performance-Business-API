@@ -283,6 +283,28 @@ Understanding how a request travels inside Laravel and where Laravel Sanctum bec
     - easier scalability;
     - stronger architectural consistency;
 
+#### 📌 How does Sanctum authenticate?
+
+**It all starts logging in**
+
+*app/Http/Controllers/Api/V1/Auth/AuthController.php*
+
+```bash
+    public function login(Request $request)
+    {
+        ...
+        if (!Auth::attempt($credentials)) {
+            return response()->json([
+                'message' => 'Invalid credentials'
+            ], 401);
+        }
+        $user = $request->user();
+        $token = $user->createToken('api-token')->plainTextToken;
+        ...
+    }
+```
+
+
 
 </details>
 
