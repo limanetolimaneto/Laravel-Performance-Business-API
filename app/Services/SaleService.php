@@ -15,13 +15,6 @@ class SaleService
             | N + 1 query problem
             |--------------------------------------------------------------------------
             |
-            | Problem:
-            | SaleResource accesses $sale->client
-            | without eager loading.
-            |
-            | Result:
-            | 1 query for sales + N queries for clients
-            |
             | Uncomment below to test using Laravel Debugbar.
             |
             */

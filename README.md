@@ -29,7 +29,7 @@
 <details>
 <summary>N + 1 QUERY PROBLEM + EAGER LOADING OPTIMIZATION</summary> 
 <br>
-<b> Using API Resources without eager loading can silently introduce the N+1 query problem, leading to inefficient database usage and scalability issues.</u>
+<b> Using API Resources without eager loading can silently introduce the N+1 query problem, leading to inefficient database usage and scalability issues.</b>
 
 #### CONTEXT 
 
@@ -71,9 +71,9 @@ Query Breakdown
 Problem
 
 - This approach introduces a linear growth in database queries (O(n)), which results in:
-    unnecessary database load
-    poor scalability under high data volume
-    hidden performance issues inside serialization layer
+    **unnecessary database load**
+    **poor scalability under high data volume**
+    **hidden performance issues inside serialization layer**
 
 <hr>
 
@@ -120,15 +120,96 @@ While execution time differences may be minimal in small datasets, the real impa
 ### D.S_2 
 
 <details>
-<summary>Intelligent use of Eloquent, Query Builder, and Raw SQL</summary> 
+
+<summary>Aggregate Query Optimization (SUM + Loop vs Single SQL Update)</summary> 
+
 <br>
-<b> ... </u>
 
-#### CONTEXT 
+#### 📌 CONTEXT
 
-#### ❌ SCENARIO 1 -
+- We are going to use as example the class database/seeders/DatabaseSeeder.php.
+- Each Client stores a total_spent field, representing the total amount of all related sales.
+- This value needs to be recalculated after generating seed data for benchmark scenarios.
+- The relationship is:
 
-#### ✅ SCENARIO 2 -
+```bash
+Client → hasMany → Sales;
+```
+<i>The goal is to update total_spent efficiently for all clients.</i>
+
+</hr>
+
+#### ❌ SCENARIO 1 - Aggregate Query Inside Loop
+
+Implementation
+
+```bash
+Client::all()->each(function ($client) {
+    $client->update([
+        'total_spent' => $client->sales()->sum('total_amount')
+    ]);
+});
+```
+
+Behavior
+
+- For each client, Laravel executes:
+
+```sql
+SELECT SUM(total_amount)
+FROM sales
+WHERE client_id = ?
+```
+<i>This creates an aggregate query per client.</i>
+
+Query Breakdown
+
+- 1 query → fetch all clients
+- N queries → calculate SUM per client
+- N queries → update each client
+
+Problem
+
+- This introduces an N+1 pattern in aggregate operations, resulting in:
+    **excessive database round trips**
+    **poor scalability**
+    **slower seed execution**
+    **unnecessary load for recalculated fields**
+
+<hr>
+
+#### ✅ SCENARIO 2 - Single SQL Update with Subquery
+
+Implementation
+
+```sql
+Client::query()->update([
+    'total_spent' => DB::raw("(
+        SELECT COALESCE(SUM(total_amount), 0)
+        FROM sales
+        WHERE sales.client_id = clients.id
+    )")
+]);
+```
+
+Behavior
+
+- The database performs the full aggregation internally using a single SQL statement.
+- No per-client loop is required.
+
+Query Breakdown
+- 1 query → update all clients
+
+Result
+
+- This approach reduces query complexity from: O(n) → O(1) and significantly improves scalability for large datasets.
+
+#### Key Insight
+
+Even aggregate operations like SUM() can create N+1-style performance problems when executed inside loops.
+Performance optimization is not only about relationships (with()), but also about how aggregate calculations are executed
+
+
 
 <details>
 
