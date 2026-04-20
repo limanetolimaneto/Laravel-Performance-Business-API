@@ -269,7 +269,7 @@ Route::middleware('auth:sanctum')->group(function () {
     - if the token is valid
     - if the token belongs to an authenticated user
     - if the token still has permission to access the resource
-    
+
 *If validation fails: 401 Unauthorized is returned immediately. The controller is never executed.*
 
 6. Controller Execution. Only authenticated requests reach the business logic:
@@ -281,7 +281,11 @@ Route::middleware('auth:sanctum')->group(function () {
 - Instead of validating authentication manually inside controllers, the project uses Laravel’s middleware pipeline to enforce security at the framework level.
 
 - This provides:
-    - Centralized access control, cleaner controllers, better scalability, safer route protection, stronger architectural consistency.
+    - Centralized access control;
+    - Cleaner controllers;
+    - Better scalability;
+    - Safer route protection;
+    - Stronger architectural consistency;
 
 ---
 
