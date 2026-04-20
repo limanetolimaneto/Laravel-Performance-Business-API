@@ -272,7 +272,7 @@ Accept: application/json
     });
     ```
 
-> At this moment, Laravel knows the request must be validated by Sanctum before reaching the controller
+    > At this moment, Laravel knows the request must be validated by Sanctum before reaching the controller
 
 4. Authentication Layer — auth:sanctum
 
@@ -283,13 +283,13 @@ Accept: application/json
         - if the token belongs to an authenticated user
         - if the token is still authorized to access the resource
 
-> Laravel Sanctum supports this token-based flow for API authentication by issuing personal access tokens through methods like createToken() .
+    > Laravel Sanctum supports this token-based flow for API authentication by issuing personal access tokens through methods like createToken() .
 
-If validation fails, Laravel immediately returns:
-```Json
-401 Unauthorized
-```
-The controller is never executed.
+    If validation fails, Laravel immediately returns:
+    ```Json
+        401 Unauthorized
+    ```
+    The controller is never executed.
 
 5. Controller Execution
 
@@ -299,19 +299,19 @@ The controller is never executed.
         - ProductController
         - SupplierController
 
-> This keeps authentication separated from domain logic, improving maintainability and preserving clean architecture principles.
+    > This keeps authentication separated from domain logic, improving maintainability and preserving clean architecture principles.
 
 
 **WHY THIS DESIGN MATTERS**
 
 > Instead of validating authentication manually inside controllers, this project uses Laravel’s middleware pipeline to enforce security at the framework level.
 
-    This provides:
-        - centralized access control;
-        - cleaner controllers;
-        - stateless API security;
-        - easier scalability;
-        - stronger architectural consistency;
+This provides:
+    - centralized access control;
+    - cleaner controllers;
+    - stateless API security;
+    - easier scalability;
+    - stronger architectural consistency;
 
 ---
 
