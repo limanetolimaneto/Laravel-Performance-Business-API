@@ -26,17 +26,16 @@
 ### D.S_1
 
 <details>
-<summary>N + 1 query problem + Eager Loading Optimization</summary> 
+<summary>N + 1 QUERY PROBLEM + EAGER LOADING OPTIMIZATION</summary> 
 
-⚠️ N+1 Query Problem with API Resources
 Using API Resources without eager loading can silently introduce the N+1 query problem, leading to inefficient database usage and scalability issues.
 
-📌 Context
+📌 CONTEXT
 
 The system exposes a Sales API endpoint, where each Sale is related to a Client.
 Each SaleResource includes client information:
 
-app/Http/Resources/Api/V1/Sale/SaleResource.php
+<i>app/Http/Resources/Api/V1/Sale/SaleResource.php</i>
 ```bash
 'client' => [
     'id' => $this->client->id,
@@ -44,10 +43,11 @@ app/Http/Resources/Api/V1/Sale/SaleResource.php
 ],
 ```
 
-❌ Scenario 1 — Lazy Loading (N+1 Problem)
+❌ <b>SCENARIO 1- LAZY LOADING (N + 1 PROBLEM)</b>
+
 Implementation
 
-app/Services/SaleService.php
+<i>app/Services/SaleService.php</i>
 ```bash
 return Sale::latest()->paginate(10);
 ```
