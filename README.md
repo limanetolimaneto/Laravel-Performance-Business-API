@@ -1,7 +1,8 @@
 # Laravel Performance Business API
 ...
 ## 🚀 Key Focus Areas
-...
+- Database performance optimization (N+1 problem solving, eager loading, query tuning)
+- Intelligent use of Eloquent, Query Builder, and Raw SQL
 ## ⚙️ Core Features
 ### 🔐 Authentication
 ...
@@ -116,3 +117,19 @@ While execution time differences may be minimal in small datasets, the real impa
 
 ---
 
+### D.S_2 
+
+<details>
+<summary>Intelligent use of Eloquent, Query Builder, and Raw SQL</summary> 
+<br>
+<b> ... </u>
+
+#### CONTEXT 
+
+#### ❌ SCENARIO 1 -
+
+#### ✅ SCENARIO 2 -
+
+<details>
+
+---
