@@ -28,8 +28,8 @@
 <details>
 <summary>N + 1 query problem + Eager Loading Optimization</summary> 
 
-    ⚠️  N+1 Query Problem with API Resources
-        Using API Resources without eager loading can silently introduce the N+1 query problem, leading to inefficient database usage and scalability issues.
+⚠️ N+1 Query Problem with API Resources
+Using API Resources without eager loading can silently introduce the N+1 query problem, leading to inefficient database usage and scalability issues.
 
 📌 Context
 
