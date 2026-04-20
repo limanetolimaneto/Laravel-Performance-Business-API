@@ -264,13 +264,13 @@ Accept: application/json
 
     - Laravel checks the API route definitions and determines whether the requested endpoint requires authentication.
     - Protected routes are grouped using:
-```bash
-Route::middleware('auth:sanctum')->group(function () {
-Route::apiResource('clients', ClientController::class);
-Route::apiResource('sales', SalesController::class);
-Route::apiResource('products', ProductController::class);
-});
-```
+    ```bash
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::apiResource('clients', ClientController::class);
+        Route::apiResource('sales', SalesController::class);
+        Route::apiResource('products', ProductController::class);
+    });
+    ```
 
 > At this moment, Laravel knows the request must be validated by Sanctum before reaching the controller
 
@@ -293,7 +293,7 @@ The controller is never executed.
 
 5. Controller Execution
 
-    - Only authenticated requests reach the business layer:
+    Only authenticated requests reach the business layer:
         - ClientController
         - SalesController
         - ProductController
@@ -306,7 +306,7 @@ The controller is never executed.
 
 > Instead of validating authentication manually inside controllers, this project uses Laravel’s middleware pipeline to enforce security at the framework level.
 
-    - This provides:
+    This provides:
         - centralized access control;
         - cleaner controllers;
         - stateless API security;
