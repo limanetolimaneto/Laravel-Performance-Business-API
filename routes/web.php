@@ -9,6 +9,12 @@ Route::get('/debug-sales-lazy', function () {
     return view('debug.sales', compact('sales'));
 });
 
+Route::get('/debug-sales-eager', function () {
+    $sales = app(SaleService::class)->listEager();
+    return view('debug.sales', compact('sales'));
+});
+
+
 Route::get('/', function () {
     return view('welcome');
 });

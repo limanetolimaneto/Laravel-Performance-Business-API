@@ -111,9 +111,13 @@ ensuring predictable performance regardless of dataset size.
 
 #### DEBUGBAR EVIDENCE
 
+- Lazy Test
 ![Lazy Loading Debugbar](screenshots/lazy-test.png)
+<i>Repeated queries to the clients table confirm the N+1 issue caused by lazy loading.</i>
 
-Repeated queries to the clients table confirm the N+1 issue caused by lazy loading.
+- Eager Test
+![Eager Loading Debugbar](screenshots/eager-test.png)
+<i>...</i>
 
 <hr>
 
