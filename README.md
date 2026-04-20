@@ -320,7 +320,8 @@ Performance optimization is not only about relationships (with()), but also abou
         - If the token is valid, the request reaches the controller.
         - If not **401 Unauthorized** is returned immediately.
 
-**How long a token lasts**
+#### 📌 HOW LONG A TOKEN LASTS
+
 - The sanctum token expiration can be centrally managed through config/sanctum.php
     
     *config/sanctum.php*
@@ -329,7 +330,8 @@ Performance optimization is not only about relationships (with()), but also abou
     ```
     > The value null can be replced by the number of minutes until an issued token will be considered expired.
 
-**How to invalidate a token**
+#### HOW TO INVALIDATE A TOKEN
+
 - The logout operations revoke tokens directly from the database.
 
     *app/Http/Controllers/Api/V1/Auth/AuthController.php*
