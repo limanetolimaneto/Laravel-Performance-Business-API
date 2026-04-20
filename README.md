@@ -241,18 +241,18 @@ Authentication is implemented using Laravel Sanctum’s token-based system.
 
 **REQUEST LIFECYCLE**
 
-[^1]:A client sends a request to a protected endpoint like: 
+- 1. A client sends a request to a protected endpoint like: 
 
 ```bash
 GET /api/clients
 Authorization: Bearer {token}
 ```
 
-[^2]: The application entry point is *public/index.php*
+- 2. The application entry point is *public/index.php*
 
-[^3]: The application container is initialized by *bootstrap/app.php*> and core services are loaded. 
+- 3. The application container is initialized by *bootstrap/app.php*> and core services are loaded. 
 
-> Laravel boots the framework with service providers and middleware registration.
+    Laravel boots the framework with service providers and middleware registration.
 
 [^4]: The request gets at *routes/api.php* where Laravel checks the API route definitions.
 
