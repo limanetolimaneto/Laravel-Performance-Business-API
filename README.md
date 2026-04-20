@@ -306,7 +306,7 @@ Accept: application/json
 
 > Instead of validating authentication manually inside controllers, this project uses Laravel’s middleware pipeline to enforce security at the framework level.
 
-This provides:
+- This provides:
     - centralized access control;
     - cleaner controllers;
     - stateless API security;
