@@ -357,11 +357,15 @@ The sanctum token expiration can be centrally managed through config/sanctum.php
 
         **POSTMAN TEST EVIDENCE**
         - Request with valid token
+
         ![Postman Test](screenshots/valid-token-test.png)
+        
         *Token created at: 16:47:53*
 
         - Http Request with expired token (expiration => 1)
+        
         ![Postman Test](screenshots/expired-token-test.png)
+        
         *Protected endpoint requested at: 16:49:03*
 
 
