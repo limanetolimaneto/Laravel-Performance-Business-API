@@ -327,6 +327,46 @@ The sanctum token expiration can be centrally managed through config/sanctum.php
     ```
     - The value null can be replced by the number of minutes until an issued token will be considered expired.
 
+    - ⚠️ Without expiration configuration, Sanctum tokens remain valid indefinitely unless explicitly revoked.
+
+        - When a user logs in, they receive a token:
+            ```Json
+            {
+                "token": "abc123..."
+            }
+            ```
+        - The request continues to work with the same token for days, weeks, or even months.
+            ```bash
+                Authorization: Bearer abc123...
+            ```    
+        - This token could be accidentally leaked;
+        - The user's laptop could be stolen;
+        > the risk of this token being used for malicious purposes is much higher if it never expires.
+        
+        ❌ The token never expires:
+        *config/sanctum.php*
+        ```bash
+            'expiration' => null,
+        ```
+        
+        ✅ The token lasts 24 hours:
+        *config/sanctum.php*
+        ```php
+            'expiration' => 1440, 
+        ```
+
+        **POSTMAN TEST EVIDENCE**
+        - Request with valid token
+        ![Postman Test](screenshots/valid-token-test.png)
+        *Token created at: 16:47:53*
+
+        - Http Request with expired token (expiration => 1)
+        ![Postman Test](screenshots/expired-token-test.png)
+        *Protected endpoint requested at: 16:49:03*
+
+
+---
+
 #### 📌 HOW TO INVALIDATE A TOKEN
 
 The logout operations revoke tokens directly from the database.

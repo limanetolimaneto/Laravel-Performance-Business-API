@@ -27,6 +27,7 @@ class AuthController extends Controller
 
         return response()->json([
             'user' => $user,
+            'time' => now()->format('H:i:s'),
             'token' => $token
         ]);
     }
