@@ -242,34 +242,32 @@ This project is a modular Business API composed of independent domains such as C
 
 **Understanding how a request travels inside Laravel**
 
-When a client sends a request to a protected endpoint such as /api/clients**
+When a client sends a request to a protected endpoint such as /api/clients
 
-1. Entry Point — public/index.php
+1. Entry Point (public/index.php) and Application Bootstrap — bootstrap/app.php
     - Every HTTP request starts in public/index.php, the main entry point of the Laravel application.
     - Here, the framework is bootstrapped and the application lifecycle begins.
-
-2. Application Bootstrap — bootstrap/app.php
     - Laravel initializes the service container, loads service providers, and registers middleware.
     - At this stage, authentication services such as Sanctum are prepared to participate in the request pipeline.
 
-3. Route Resolution — routes/api.php
+2. Route Resolution — routes/api.php
     - Laravel checks the API route definitions and determines whether the requested endpoint requires authentication.
-    - Protected routes are grouped using middleware(auth:sanctum)
-    > At this moment, Laravel knows the request must be validated by Sanctum before reaching the controller
+    - Protected routes are grouped using middleware(auth:sanctum).
+    - At this moment, Laravel knows the request must be validated by Sanctum before reaching the controller.
 
-4. Authentication Layer — auth:sanctum
+3. Authentication Layer — auth:sanctum
     - This is where Sanctum enters the request lifecycle.
     - The middleware validates:
         - if a Bearer token exists
         - if the token is valid
         - if the token belongs to an authenticated user
         - if the token is still authorized to access the resource
-    > Laravel Sanctum supports this token-based flow for API authentication by issuing personal access tokens through methods like createToken() .
-    > If validation fails, Laravel immediately returns '401 Unauthorized' the controller is never executed.
+    - Laravel Sanctum supports this token-based flow for API authentication by issuing personal access tokens through methods like createToken().
+    - If validation fails, Laravel immediately returns '401 Unauthorized' the controller is never executed.
 
-5. Controller Execution
+4. Controller Execution
     - Only authenticated requests reach the business layer: ClientController, SalesController and others.
-    > This keeps authentication separated from domain logic, improving maintainability and preserving clean architecture principles.
+    - This keeps authentication separated from domain logic, improving maintainability and preserving clean architecture principles.
 
 **Why This Design Matters**
 
@@ -285,10 +283,9 @@ When a client sends a request to a protected endpoint such as /api/clients**
 
 **Authentication starts during the login process.**
 
-- When valid credentials are submitted, Laravel authenticates the user using:
+When valid credentials are submitted, Laravel authenticates the user using:
 
-    *app/Http/Controllers/Api/V1/Auth/AuthController.php*
-
+-   *app/Http/Controllers/Api/V1/Auth/AuthController.php*
     ```bash
         public function login(Request $request)
         {
@@ -303,13 +300,13 @@ When a client sends a request to a protected endpoint such as /api/clients**
             ...
         }
     ```
-    >At this point, Laravel Sanctum generates a Personal Access Token associated with the authenticated user
-    >This token is returned to the client and must be included in all subsequent requests using: Authorization: Bearer {token}
+    - At this point, Laravel Sanctum generates a Personal Access Token associated with the authenticated user
+    - This token is returned to the client and must be included in all subsequent requests using: Authorization: Bearer {token}
 
 **What happens next**
 
-- When the client accesses a protected route such as GET api/clients
-    *routes/api.php*
+When the client accesses a protected route such as GET api/clients
+-   *routes/api.php*
     ```bash
         ...
         Route::middleware('auth:sanctum')->group(function () {
@@ -322,19 +319,19 @@ When a client sends a request to a protected endpoint such as /api/clients**
 
 #### 📌 HOW LONG A TOKEN LASTS
 
-- The sanctum token expiration can be centrally managed through config/sanctum.php
+The sanctum token expiration can be centrally managed through config/sanctum.php
     
-    *config/sanctum.php*
+-   *config/sanctum.php*
     ```bash
     'expiration' => null,
     ```
-    > The value null can be replced by the number of minutes until an issued token will be considered expired.
+    - The value null can be replced by the number of minutes until an issued token will be considered expired.
 
 #### 📌 HOW TO INVALIDATE A TOKEN
 
-- The logout operations revoke tokens directly from the database.
+The logout operations revoke tokens directly from the database.
 
-    *app/Http/Controllers/Api/V1/Auth/AuthController.php*
+-   *app/Http/Controllers/Api/V1/Auth/AuthController.php*
     ```bash
         ...
         public function logout(Request $request)
