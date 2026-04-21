@@ -237,12 +237,12 @@ Performance optimization is not only about relationships (with()), but also abou
 
 #### 📌 REQUEST LIFECYCLE:
 
+This project is a modular Business API composed of independent domains such as Clients, Sales and others;  
+> Because these modules expose protected business operations, authentication must happen before any controller logic is executed.
+
 **Understanding how a request travels inside Laravel**
 
-- This project is a modular Business API composed of independent domains such as Clients, Sales and others;  
-    > Because these modules expose protected business operations, authentication must happen before any controller logic is executed.
-
-**When a client sends a request to a protected endpoint such as /api/clients**
+When a client sends a request to a protected endpoint such as /api/clients**
 
 1. Entry Point — public/index.php
     - Every HTTP request starts in public/index.php, the main entry point of the Laravel application.
@@ -330,7 +330,7 @@ Performance optimization is not only about relationships (with()), but also abou
     ```
     > The value null can be replced by the number of minutes until an issued token will be considered expired.
 
-#### HOW TO INVALIDATE A TOKEN
+#### 📌 HOW TO INVALIDATE A TOKEN
 
 - The logout operations revoke tokens directly from the database.
 
@@ -346,7 +346,6 @@ Performance optimization is not only about relationships (with()), but also abou
         }
         ...
     ```
-
 
 </details>
 
