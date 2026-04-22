@@ -12,6 +12,7 @@ It is designed as a portfolio piece targeting backend and Laravel developer role
 
 <details>
     <summary>D.S 1 - N + 1 Query problem and Eager loading optimization</summary>
+<br>
 
 **Using API Resources without eager loading can silently introduce the N+1 query problem, leading to inefficient database usage and scalability issues.**
 
@@ -32,10 +33,8 @@ It is designed as a portfolio piece targeting backend and Laravel developer role
 
 --- 
 
-#### ❌ SCENARIO 1
-
 <details>
-    <summary>Lazy Loading (N + 1 Problem)</summary>
+    <summary><h3> ❌ SCENARIO 1 - Lazy Loading (N + 1 Problem)</h3></summary>
 
 Implementation
 
