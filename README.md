@@ -16,7 +16,7 @@ It is designed as a portfolio piece targeting backend and Laravel developer role
 
 **Using API Resources without eager loading can silently introduce the N+1 query problem, leading to inefficient database usage and scalability issues.**
 
-#### Lets use Sales API endpoint as example:
+#### ➡️ Lets use Sales API endpoint as example:
 
 - The system exposes a Sales API endpoint, where each Sale is related to a Client.
 - Each SaleResource includes client information:
@@ -91,7 +91,7 @@ Result
 - This approach reduces relationship query complexity from:   O(n) → O(1)
 ensuring predictable performance regardless of dataset size.
 
-#### Debugbar evidence
+#### ➡️ Debugbar evidence
 
 - Lazy Test
 
@@ -105,7 +105,7 @@ ensuring predictable performance regardless of dataset size.
 
 *As shown in Debugbar, query count remains constant regardless of dataset size, improving scalability and reducing unnecessary database load.*
 
-#### Key insight
+#### ➡️ Key insight
 
 While execution time differences may be minimal in small datasets, the real impact of eager loading is not latency reduction, but query scalability and database load control.
 
@@ -201,7 +201,6 @@ Performance optimization is not only about relationships (with()), but also abou
 ---
 
 ### D.S 3 Secure API Authentication with Laravel Sanctum
-
 <details>
 
 **This project is a modular Business API composed of independent domains such as Clients, Sales and others**
