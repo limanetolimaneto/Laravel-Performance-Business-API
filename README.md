@@ -16,10 +16,13 @@ It is designed as a portfolio piece targeting backend and Laravel developer role
 
 **Using API Resources without eager loading can silently introduce the N+1 query problem, leading to inefficient database usage and scalability issues.**
 
-#### ➡️ Lets use Sales API endpoint as example:
+<details>
+    <summary>➡️ Lets use Sales API endpoint as example</summary>
+<br>
 
-- The system exposes a Sales API endpoint, where each Sale is related to a Client.
-- Each SaleResource includes client information:
+The system exposes a Sales API endpoint, where each Sale is related to a Client.
+
+Each SaleResource includes client information:
 
 *app/Http/Resources/Api/V1/Sale/SaleResource.php*
 
@@ -30,12 +33,13 @@ It is designed as a portfolio piece targeting backend and Laravel developer role
 ],
 
 ```
+</details>
 
---- 
+<br>
 
 <details>
     <summary><b> ❌ SCENARIO 1 - Lazy Loading (N + 1 Problem)</b></summary>
-
+<br>
 Implementation
 
 *app/Services/SaleService.php*
@@ -62,7 +66,7 @@ Problem
     - hidden performance issues inside serialization layer;
 </details>
 
-
+<br>
 
 <details>
     <summary><b>✅ SCENARIO 2 - Optimized Solution (Eager Loading)</b></summary>
@@ -101,6 +105,7 @@ ensuring predictable performance regardless of dataset size.
 
 </details>
 
+<br>
 
 <details>
     <summary><b>➡️ Debugbar evidence - Screenshots</b></summary>
@@ -119,6 +124,7 @@ ensuring predictable performance regardless of dataset size.
 *As shown in Debugbar, query count remains constant regardless of dataset size, improving scalability and reducing unnecessary database load.*
 
 </details>
+
 --- 
 
 #### ➡️ Key insight
