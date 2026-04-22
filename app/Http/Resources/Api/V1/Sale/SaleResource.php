@@ -13,8 +13,6 @@ class SaleResource extends JsonResource
             'id' => $this->id,
             'total_amount' => $this->total_amount,
             'sale_date' => $this->sale_date,
-
-            // 🔥 aqui começa o N+1
             'client' => [
                 'id' => $this->client->id,
                 'name' => $this->client->name,

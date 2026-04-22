@@ -34,7 +34,7 @@ class SaleService
         // ==================
 
         return Sale::with([
-            'client',
+            'client','products'
         ])
         ->latest()
         ->paginate(10);

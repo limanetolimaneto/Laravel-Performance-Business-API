@@ -16,4 +16,9 @@ class Product extends Model
         'name',
         'price'
     ];
+
+    public function sales(){
+        return $this->belongsToMany(Sale::class);
+    }
+
 }
