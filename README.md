@@ -10,9 +10,9 @@ It is designed as a portfolio piece targeting backend and Laravel developer role
 
 ## D.S (Demonstration Scenario)
 
-### <details>
+### D.S 1 - N + 1 Query problem and Eager loading optimization
 
-<summary>D.S 1 - N + 1 Query problem and Eager loading optimization</summary> 
+<details>
 
 **Using API Resources without eager loading can silently introduce the N+1 query problem, leading to inefficient database usage and scalability issues.**
 
@@ -113,9 +113,9 @@ While execution time differences may be minimal in small datasets, the real impa
 
 ---
 
-### <details>
+### D.S 2 - Aggregate Query Optimization (SUM + Loop vs Single SQL Update)
 
-<summary>D.S 2 - Aggregate Query Optimization (SUM + Loop vs Single SQL Update)</summary> 
+<details>
 
 #### Lets use database/seeders/DatabaseSeeder.php as example:
 - Each Client stores a total_spent field, representing the total amount of all related sales.
@@ -200,9 +200,9 @@ Performance optimization is not only about relationships (with()), but also abou
 
 ---
 
-### <details>
+### D.S 3 Secure API Authentication with Laravel Sanctum
 
-<summary>D.S 3 Secure API Authentication with Laravel Sanctum</summary> 
+<details>
 
 **This project is a modular Business API composed of independent domains such as Clients, Sales and others**
 > Because these modules expose protected business operations, authentication must happen before any controller logic is executed.
