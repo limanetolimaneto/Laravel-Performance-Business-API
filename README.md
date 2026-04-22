@@ -1,42 +1,27 @@
 # Laravel Performance Business API
-...
-## 🚀 Key Focus Areas
-- Database performance optimization (N+1 problem solving, eager loading, query tuning)
-- Intelligent use of Eloquent, Query Builder, and Raw SQL
-## ⚙️ Core Features
-### 🔐 Authentication
-...
-### 📊 Business Modules
-...
-### ⚡ Performance Engineering
-...
-### 📬 Async Processing
-...
-### 📄 Reporting System
-...
-## 🧠 Architectural Highlights
-...
-## 🛠 Tech Stack
-...
-## 🎯 Goal
-...
 
+A high-performance backend system built with Laravel, designed to demonstrate advanced backend engineering concepts including best practices using Sanctum authentication, query optimization, queue processing, and scalable API architecture.
 
-## DEMONSTRATION SCENARIOS (D.S)
+This project simulates a real-world business management system with a focus on performance, clean architecture, and asynchronous processing.
 
-### D.S_1
+It is designed as a portfolio piece targeting backend and Laravel developer roles on platforms such as Upwork.
 
-<details>
-<summary>N + 1 QUERY PROBLEM + EAGER LOADING OPTIMIZATION</summary> 
-<br>
-<b> Using API Resources without eager loading can silently introduce the N+1 query problem, leading to inefficient database usage and scalability issues.</b>
+---
 
-#### CONTEXT 
+## D.S (Demonstration Scenario)
+
+### <details>
+
+<summary>D.S 1 - N + 1 Query problem and Eager loading optimization</summary> 
+
+**Using API Resources without eager loading can silently introduce the N+1 query problem, leading to inefficient database usage and scalability issues.**
+
+#### Lets use Sales API endpoint as example:
 
 - The system exposes a Sales API endpoint, where each Sale is related to a Client.
 - Each SaleResource includes client information:
 
-<i>app/Http/Resources/Api/V1/Sale/SaleResource.php</i>
+*app/Http/Resources/Api/V1/Sale/SaleResource.php*
 
 ```bash
 'client' => [
@@ -46,13 +31,11 @@
 
 ```
 
-<hr>
-
 #### ❌ SCENARIO 1 - Lazy Loading (N + 1 Problem)
 
 Implementation
 
-<i>app/Services/SaleService.php</i>
+*app/Services/SaleService.php*
 
 ```bash
 return Sale::latest()->paginate(10);
@@ -71,17 +54,15 @@ Query Breakdown
 Problem
 
 - This approach introduces a linear growth in database queries (O(n)), which results in:
-    **unnecessary database load**
-    **poor scalability under high data volume**
-    **hidden performance issues inside serialization layer**
-
-<hr>
+    - unnecessary database load;
+    - poor scalability under high data volume;
+    - hidden performance issues inside serialization layer;
 
 #### ✅ SCENARIO 2 — Optimized Solution (Eager Loading)
 
 Implementation 
 
-<i>app/Models/Sale.php</i>
+*app/Models/Sale.php*
 
 ```bash
 public function client()
@@ -90,38 +71,41 @@ public function client()
 }
 ```
 
-<i>app/Services/SaleService.php</i>
+*app/Services/SaleService.php*
 
 ```bash
 return Sale::with('client')->latest()->paginate(10);
 ```
 
 Behavior
+
 - All required relationships are loaded in advance using eager loading, avoiding additional queries during serialization.
 
 Query Breakdown
+
 - 1 query → fetch sales
 - 1 query → fetch clients
 
 Result
+
 - This approach reduces relationship query complexity from:   O(n) → O(1)
 ensuring predictable performance regardless of dataset size.
 
-<hr>
-
-#### DEBUGBAR EVIDENCE
+#### Debugbar evidence
 
 - Lazy Test
+
 ![Lazy Loading Debugbar](screenshots/lazy-test.png)
-<i>Repeated queries to the clients table confirm the N+1 issue caused by lazy loading.</i>
+
+*Repeated queries to the clients table confirm the N+1 issue caused by lazy loading.*
 
 - Eager Test
+
 ![Eager Loading Debugbar](screenshots/eager-test.png)
-<i>As shown in Debugbar, query count remains constant regardless of dataset size, improving scalability and reducing unnecessary database load.</i>
 
-<hr>
+*As shown in Debugbar, query count remains constant regardless of dataset size, improving scalability and reducing unnecessary database load.*
 
-#### KEY INSIGHT
+#### Key insight
 
 While execution time differences may be minimal in small datasets, the real impact of eager loading is not latency reduction, but query scalability and database load control.
 
@@ -129,27 +113,20 @@ While execution time differences may be minimal in small datasets, the real impa
 
 ---
 
-### D.S_2 
+### <details>
 
-<details>
+<summary>D.S 2 - Aggregate Query Optimization (SUM + Loop vs Single SQL Update)</summary> 
 
-<summary>Aggregate Query Optimization (SUM + Loop vs Single SQL Update)</summary> 
-
-<br>
-
-#### 📌 CONTEXT
-
-- We are going to use as example the class database/seeders/DatabaseSeeder.php.
+#### Lets use database/seeders/DatabaseSeeder.php as example:
 - Each Client stores a total_spent field, representing the total amount of all related sales.
 - This value needs to be recalculated after generating seed data for benchmark scenarios.
-- The relationship is:
+
+The relationship is:
 
 ```bash
 Client → hasMany → Sales;
 ```
-<i>The goal is to update total_spent efficiently for all clients.</i>
-
-</hr>
+*The goal is to update total_spent efficiently for all clients.*
 
 #### ❌ SCENARIO 1 - Aggregate Query Inside Loop
 
@@ -172,7 +149,7 @@ SELECT SUM(total_amount)
 FROM sales
 WHERE client_id = ?
 ```
-<i>This creates an aggregate query per client.</i>
+*This creates an aggregate query per client.*
 
 Query Breakdown
 
@@ -183,12 +160,10 @@ Query Breakdown
 Problem
 
 - This introduces an N+1 pattern in aggregate operations, resulting in:
-    **excessive database round trips**
-    **poor scalability**
-    **slower seed execution**
-    **unnecessary load for recalculated fields**
-
-<hr>
+    - excessive database round trips;
+    - poor scalability;
+    - slower seed execution;
+    - unnecessary load for recalculated fields;
 
 #### ✅ SCENARIO 2 - Single SQL Update with Subquery
 
@@ -221,26 +196,18 @@ Result
 Even aggregate operations like SUM() can create N+1-style performance problems when executed inside loops.
 Performance optimization is not only about relationships (with()), but also about how aggregate calculations are executed
 
-
-
 </details>
 
 ---
 
-### D.S_3 
+### <details>
 
-<details>
+<summary>D.S 3 Secure API Authentication with Laravel Sanctum</summary> 
 
-<summary>Secure API Authentication with Laravel Sanctum</summary> 
-
-<br>
-
-#### 📌 REQUEST LIFECYCLE:
-
-This project is a modular Business API composed of independent domains such as Clients, Sales and others;  
+**This project is a modular Business API composed of independent domains such as Clients, Sales and others**
 > Because these modules expose protected business operations, authentication must happen before any controller logic is executed.
 
-**Understanding how a request travels inside Laravel**
+#### 📌 Understanding how a request travels inside Laravel
 
 When a client sends a request to a protected endpoint such as /api/clients
 
@@ -279,9 +246,9 @@ When a client sends a request to a protected endpoint such as /api/clients
     - easier scalability;
     - stronger architectural consistency;
 
-#### 📌 HOW SANCTUM AUTHENTICATES REQUESTS
+#### 📌 How Sanctum authenticates requests
 
-**Authentication starts during the login process.**
+Authentication starts during the login process.
 
 When valid credentials are submitted, Laravel authenticates the user using:
 
@@ -317,7 +284,7 @@ When the client accesses a protected route such as GET api/clients
         - If the token is valid, the request reaches the controller.
         - If not **401 Unauthorized** is returned immediately.
 
-#### 📌 HOW LONG A TOKEN LASTS
+#### 📌 How long a token lasts
 
 The sanctum token expiration can be centrally managed through config/sanctum.php
     
@@ -371,7 +338,7 @@ The sanctum token expiration can be centrally managed through config/sanctum.php
 
 ---
 
-#### 📌 HOW TO INVALIDATE A TOKEN
+#### 📌 How to invalidate a token
 
 The logout operations revoke tokens directly from the database.
 
@@ -395,3 +362,37 @@ The logout operations revoke tokens directly from the database.
 
 
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## 🚀 Key Focus Areas
+- Database performance optimization (N+1 problem solving, eager loading, query tuning)
+- Intelligent use of Eloquent, Query Builder, and Raw SQL
+## ⚙️ Core Features
+### 🔐 Authentication
+...
+### 📊 Business Modules
+...
+### ⚡ Performance Engineering
+...
+### 📬 Async Processing
+...
+### 📄 Reporting System
+...
+## 🧠 Architectural Highlights
+...
+## 🛠 Tech Stack
+...
+## 🎯 Goal
+...
