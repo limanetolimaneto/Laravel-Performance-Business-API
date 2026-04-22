@@ -10,9 +10,8 @@ It is designed as a portfolio piece targeting backend and Laravel developer role
 
 ## D.S (Demonstration Scenario)
 
-### D.S 1 - N + 1 Query problem and Eager loading optimization
-
 <details>
+    <summary>D.S 1 - N + 1 Query problem and Eager loading optimization</summary>
 
 **Using API Resources without eager loading can silently introduce the N+1 query problem, leading to inefficient database usage and scalability issues.**
 
@@ -107,6 +106,7 @@ ensuring predictable performance regardless of dataset size.
 #### ➡️ Debugbar evidence
 
 <details>
+    <summary>Screenshots</summary>
 
 - Lazy Test
 
