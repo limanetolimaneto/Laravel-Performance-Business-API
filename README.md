@@ -11,13 +11,13 @@ It is designed as a portfolio piece targeting backend and Laravel developer role
 ## D.S (Demonstration Scenario)
 
 <details>
-    <summary>D.S 1 - N + 1 Query problem and Eager loading optimization</summary>
+    <summary> <b> D.S 1 - N + 1 Query problem and Eager loading optimization </b> </summary>
 <br>
 
 **Using API Resources without eager loading can silently introduce the N+1 query problem, leading to inefficient database usage and scalability issues.**
 
 <details>
-    <summary>➡️ Lets use Sales API endpoint as example</summary>
+    <summary> <b> ➡️ Lets use Sales API endpoint as example </b> </summary>
 <br>
 
 The system exposes a Sales API endpoint, where each Sale is related to a Client.
@@ -38,7 +38,7 @@ Each SaleResource includes client information:
 <br>
 
 <details>
-    <summary><b> ❌ SCENARIO 1 - Lazy Loading (N + 1 Problem)</b></summary>
+    <summary> <b> ❌ SCENARIO 1 - Lazy Loading (N + 1 Problem) </b> </summary>
 <br>
 Implementation
 
@@ -69,7 +69,7 @@ Problem
 <br>
 
 <details>
-    <summary><b>✅ SCENARIO 2 - Optimized Solution (Eager Loading)</b></summary>
+    <summary> <b> ✅ SCENARIO 2 - Optimized Solution (Eager Loading) </b> </summary>
 <br>
 
 Implementation 
@@ -108,7 +108,7 @@ ensuring predictable performance regardless of dataset size.
 <br>
 
 <details>
-    <summary><b>➡️ Debugbar evidence - Screenshots</b></summary>
+    <summary> <b> ➡️ Debugbar evidence - Screenshots </b> </summary>
 <br>
 
 - Lazy Test
@@ -127,9 +127,12 @@ ensuring predictable performance regardless of dataset size.
 
 --- 
 
-#### ➡️ Key insight
+<details>
+    <summary> <b> ➡️ Key insight <b> </summary>
 
 While execution time differences may be minimal in small datasets, the real impact of eager loading is not latency reduction, but query scalability and database load control.
+
+</details>
 
 </details>
 
