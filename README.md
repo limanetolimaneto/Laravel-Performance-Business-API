@@ -31,6 +31,8 @@ It is designed as a portfolio piece targeting backend and Laravel developer role
 
 ```
 
+--- 
+
 #### ❌ SCENARIO 1
 
 <details>
@@ -61,7 +63,6 @@ Problem
     - poor scalability under high data volume;
     - hidden performance issues inside serialization layer;
 </details>
-
 
 #### ✅ SCENARIO 2
 
@@ -101,7 +102,11 @@ ensuring predictable performance regardless of dataset size.
 
 </details>
 
+
+
 #### ➡️ Debugbar evidence
+
+<details>
 
 - Lazy Test
 
@@ -114,6 +119,9 @@ ensuring predictable performance regardless of dataset size.
 ![Eager Loading Debugbar](screenshots/eager-test.png)
 
 *As shown in Debugbar, query count remains constant regardless of dataset size, improving scalability and reducing unnecessary database load.*
+
+</details>
+--- 
 
 #### ➡️ Key insight
 
