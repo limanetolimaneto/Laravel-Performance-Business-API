@@ -1,15 +1,47 @@
 # Laravel Performance Business API
 
-A high-performance backend system built with Laravel, designed to demonstrate advanced backend engineering concepts including best practices using Sanctum authentication, query optimization, queue processing, and scalable API architecture.
+<!-- #region  Presentation -->
 
-This project simulates a real-world business management system with a focus on performance, clean architecture, and asynchronous processing.
+*This project simulates a real-world business management system with a focus on performance, clean architecture, and asynchronous processing.*
 
-It is designed as a portfolio piece targeting backend and Laravel developer roles on platforms such as Upwork.
+![MIT License](https://img.shields.io/badge/license-MIT-green)
+![Laravel](https://img.shields.io/badge/backend-Laravel-red)
+![MySQL](https://img.shields.io/badge/database-MySQL-yellow)
 
 ---
 
+A high-performance backend system built with Laravel, designed to demonstrate advanced backend engineering concepts including best practices using 
+
+- Query optimization;
+- Sanctum authentication;
+
+It is designed as a portfolio piece targeting backend and Laravel developer roles on platforms such as Upwork.
+
+<!-- #endregion -->
+
+---
+
+<!-- #region Tech_stack-->
+
+## 🛠 Tech Stack
+
+- Laravel 11+
+- Laravel Sanctum
+- MySQL
+- Redis
+- Laravel Queues
+- DomPDF (reports)
+
+<!-- #endregion -->
+
 ## D.S (Demonstration Scenario)
 
+<!-- ================================================================ -->
+<!-- D.S_1 ========================================================== -->
+
+<!-- #region D.S_1 -->
+
+<!-- #region Query_prblem_and_eager_loading -->
 <details>
     <summary> <b> D.S 1 - N + 1 Query problem and Eager loading optimization </b> </summary>
 <br>
@@ -35,7 +67,11 @@ Each SaleResource includes client information:
 ```
 </details>
 
+<!-- #endregion -->
+
 <br>
+
+<!-- #region Scenario_1 -->
 
 <details>
     <summary> <b> ❌ SCENARIO 1 - Lazy Loading (N + 1 Problem) </b> </summary>
@@ -66,7 +102,11 @@ Problem
     - hidden performance issues inside serialization layer;
 </details>
 
+<!-- #endregion -->
+
 <br>
+
+<!-- #region Scenario_2 -->
 
 <details>
     <summary> <b> ✅ SCENARIO 2 - Optimized Solution (Eager Loading) </b> </summary>
@@ -105,7 +145,11 @@ ensuring predictable performance regardless of dataset size.
 
 </details>
 
+<!-- #endregion -->
+
 <br>
+
+<!-- #region Debugbar_evidence -->
 
 <details>
     <summary> <b> ➡️ Debugbar evidence - Screenshots </b> </summary>
@@ -125,7 +169,11 @@ ensuring predictable performance regardless of dataset size.
 
 </details>
 
+<!-- #endregion -->
+
 <br>
+
+<!-- #region Key_insight -->
 
 <details>
     <summary> <b> ➡️ Key insight <b> </summary>
@@ -136,8 +184,21 @@ While execution time differences may be minimal in small datasets, the real impa
 
 </details>
 
+<!-- #endregion -->
+
+<!-- #endregion -->
+
+<!-- D.S_1 ========================================================== -->
+<!-- ================================================================ -->
+
 ---
 
+<!-- ================================================================ -->
+<!-- D.S 2 ========================================================== -->
+
+<!-- #region D.S_2 -->
+
+<!-- #region Aggregate_query_optimization -->
 <details>
     <summary> <b> D.S 2 - Aggregate Query Optimization (SUM + Loop vs Single SQL Update) </b> </summary>
 <br>
@@ -158,7 +219,11 @@ Client → hasMany → Sales;
 
 </details>
 
+<!-- #endregion -->
+
 <br>
+
+<!-- #region Scenario_1 -->
 
 <details>
     <summary> <b> ❌ SCENARIO 1 - Aggregate Query Inside Loop </b> </summary>
@@ -201,7 +266,11 @@ Problem
 
 </details>
 
+<!-- #endregion -->
+
 <br>
+
+<!-- #region Scenario_2 -->
 
 <details>
     <summary> <b> ✅ SCENARIO 2 - Single SQL Update with Subquery </b> </summary>
@@ -233,6 +302,12 @@ Result
 
 </details>
 
+<!-- #endregion -->
+
+<br>
+
+<!-- #region Key_insight -->
+
 <details>
     <summary> <b> Key Insight </b> </summary>
 <br>
@@ -244,7 +319,21 @@ Performance optimization is not only about relationships (with()), but also abou
 
 </details>
 
+<!-- #endregion -->
+
+<!-- #endregion -->
+
+<!-- D.S 2 ========================================================== -->
+<!-- ================================================================ -->
+
 ---
+
+<!-- ================================================================ -->
+<!-- D.S 3 ========================================================== -->
+
+<!-- #region D.S_3 -->
+
+<!-- #region Secure_api_authentication -->
 
 <details>
     <summary> <b> D.S 3 Secure API Authentication with Laravel Sanctum </b> </summary>
@@ -253,7 +342,11 @@ Performance optimization is not only about relationships (with()), but also abou
 **This project is a modular Business API composed of independent domains such as Clients, Sales and others**
 > Because these modules expose protected business operations, authentication must happen before any controller logic is executed.
 
+<!-- #endregion -->
+
 <br>
+
+<!-- #region understanding_how_a_request_travels -->
 
 <details>
     <summary> <b> 📌 Understanding how a request travels inside Laravel </b> </summary>
@@ -298,7 +391,11 @@ When a client sends a request to a protected endpoint such as /api/clients
 
 </details>
 
+<!-- #endregion -->
+
 <br>
+
+<!-- #region How_sanctum_authenticates -->
 
 <details>
     <summary><b> 📌 How Sanctum authenticates requests </b></summary>
@@ -342,7 +439,11 @@ When the client accesses a protected route such as GET api/clients
 
 </details>
 
+<!-- #endregion -->
+
 <br>
+
+<!-- #region How_long_a_token_lasts -->
 
 <details>
     <summary> <b> 📌 How long a token lasts </b> </summary>
@@ -399,7 +500,11 @@ The sanctum token expiration can be centrally managed through config/sanctum.php
 
 </details>
 
+<!-- #endregion -->
+
 <br>
+
+<!-- #region How_to_invalidate_a_token -->
 
 <details>
     <summary> <b> 📌 How to invalidate a token </b> </summary>
@@ -424,8 +529,12 @@ The logout operations revoke tokens directly from the database.
 
 </details>
 
+<!-- #endregion -->
 
+<!-- #endregion -->
 
+<!-- D.S 3 ========================================================== -->
+<!-- ================================================================ -->
 
 ---
 
@@ -440,25 +549,3 @@ The logout operations revoke tokens directly from the database.
 
 
 
-
-
-## 🚀 Key Focus Areas
-- Database performance optimization (N+1 problem solving, eager loading, query tuning)
-- Intelligent use of Eloquent, Query Builder, and Raw SQL
-## ⚙️ Core Features
-### 🔐 Authentication
-...
-### 📊 Business Modules
-...
-### ⚡ Performance Engineering
-...
-### 📬 Async Processing
-...
-### 📄 Reporting System
-...
-## 🧠 Architectural Highlights
-...
-## 🛠 Tech Stack
-...
-## 🎯 Goal
-...
