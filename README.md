@@ -34,7 +34,7 @@ It is designed as a portfolio piece targeting backend and Laravel developer role
 --- 
 
 <details>
-    <summary><h3> ❌ SCENARIO 1 - Lazy Loading (N + 1 Problem)</h3></summary>
+    <summary><b> ❌ SCENARIO 1 - Lazy Loading (N + 1 Problem)</b></summary>
 
 Implementation
 
@@ -62,10 +62,11 @@ Problem
     - hidden performance issues inside serialization layer;
 </details>
 
-#### ✅ SCENARIO 2
+
 
 <details>
-    <summary>Optimized Solution (Eager Loading)</summary>
+    <summary><b>✅ SCENARIO 2 - Optimized Solution (Eager Loading)</b></summary>
+<br>
 
 Implementation 
 
@@ -101,11 +102,9 @@ ensuring predictable performance regardless of dataset size.
 </details>
 
 
-
-#### ➡️ Debugbar evidence
-
 <details>
-    <summary>Screenshots</summary>
+    <summary><b>➡️ Debugbar evidence - Screenshots</b></summary>
+<br>
 
 - Lazy Test
 
