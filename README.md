@@ -31,7 +31,10 @@ It is designed as a portfolio piece targeting backend and Laravel developer role
 
 ```
 
-#### ❌ SCENARIO 1 - Lazy Loading (N + 1 Problem)
+#### ❌ SCENARIO 1
+
+<details>
+    <summary>Lazy Loading (N + 1 Problem)</summary>
 
 Implementation
 
@@ -57,8 +60,13 @@ Problem
     - unnecessary database load;
     - poor scalability under high data volume;
     - hidden performance issues inside serialization layer;
+</details>
 
-#### ✅ SCENARIO 2 — Optimized Solution (Eager Loading)
+
+#### ✅ SCENARIO 2
+
+<details>
+    <summary>Optimized Solution (Eager Loading)</summary>
 
 Implementation 
 
@@ -90,6 +98,8 @@ Result
 
 - This approach reduces relationship query complexity from:   O(n) → O(1)
 ensuring predictable performance regardless of dataset size.
+
+</details>
 
 #### ➡️ Debugbar evidence
 
