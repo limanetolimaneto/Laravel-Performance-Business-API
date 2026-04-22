@@ -125,7 +125,7 @@ ensuring predictable performance regardless of dataset size.
 
 </details>
 
---- 
+<br>
 
 <details>
     <summary> <b> ➡️ Key insight <b> </summary>
@@ -138,22 +138,31 @@ While execution time differences may be minimal in small datasets, the real impa
 
 ---
 
-### D.S 2 - Aggregate Query Optimization (SUM + Loop vs Single SQL Update)
+<details>
+    <summary> <b> D.S 2 - Aggregate Query Optimization (SUM + Loop vs Single SQL Update) </b> </summary>
+<br>
+
 
 <details>
+    <summary> <b> Lets use database/seeders/DatabaseSeeder.php as example: </b> </summary>
+<br>
+Each Client stores a total_spent field, representing the total amount of all related sales.
+This value needs to be recalculated after generating seed data for benchmark scenarios.
 
-#### Lets use database/seeders/DatabaseSeeder.php as example:
-- Each Client stores a total_spent field, representing the total amount of all related sales.
-- This value needs to be recalculated after generating seed data for benchmark scenarios.
-
-The relationship is:
+- The relationship is:
 
 ```bash
 Client → hasMany → Sales;
 ```
 *The goal is to update total_spent efficiently for all clients.*
 
-#### ❌ SCENARIO 1 - Aggregate Query Inside Loop
+</details>
+
+<br>
+
+<details>
+    <summary> <b> ❌ SCENARIO 1 - Aggregate Query Inside Loop </b> </summary>
+<br>
 
 Implementation
 
@@ -190,7 +199,13 @@ Problem
     - slower seed execution;
     - unnecessary load for recalculated fields;
 
-#### ✅ SCENARIO 2 - Single SQL Update with Subquery
+</details>
+
+<br>
+
+<details>
+    <summary> <b> ✅ SCENARIO 2 - Single SQL Update with Subquery </b> </summary>
+<br>
 
 Implementation
 
@@ -216,22 +231,33 @@ Result
 
 - This approach reduces query complexity from: O(n) → O(1) and significantly improves scalability for large datasets.
 
-#### Key Insight
+</details>
+
+<details>
+    <summary> <b> Key Insight </b> </summary>
+<br>
 
 Even aggregate operations like SUM() can create N+1-style performance problems when executed inside loops.
 Performance optimization is not only about relationships (with()), but also about how aggregate calculations are executed
 
 </details>
 
+</details>
+
 ---
 
-### D.S 3 Secure API Authentication with Laravel Sanctum
 <details>
+    <summary> <b> D.S 3 Secure API Authentication with Laravel Sanctum </b> </summary>
+<br>
 
 **This project is a modular Business API composed of independent domains such as Clients, Sales and others**
 > Because these modules expose protected business operations, authentication must happen before any controller logic is executed.
 
-#### 📌 Understanding how a request travels inside Laravel
+<br>
+
+<details>
+    <summary> <b> 📌 Understanding how a request travels inside Laravel </b> </summary>
+<br>
 
 When a client sends a request to a protected endpoint such as /api/clients
 
@@ -270,7 +296,13 @@ When a client sends a request to a protected endpoint such as /api/clients
     - easier scalability;
     - stronger architectural consistency;
 
-#### 📌 How Sanctum authenticates requests
+</details>
+
+<br>
+
+<details>
+    <summary><b> 📌 How Sanctum authenticates requests </b></summary>
+<br>
 
 Authentication starts during the login process.
 
@@ -308,7 +340,13 @@ When the client accesses a protected route such as GET api/clients
         - If the token is valid, the request reaches the controller.
         - If not **401 Unauthorized** is returned immediately.
 
-#### 📌 How long a token lasts
+</details>
+
+<br>
+
+<details>
+    <summary> <b> 📌 How long a token lasts </b> </summary>
+<br>
 
 The sanctum token expiration can be centrally managed through config/sanctum.php
     
@@ -359,10 +397,13 @@ The sanctum token expiration can be centrally managed through config/sanctum.php
         
         *Protected endpoint requested at: 16:49:03*
 
+</details>
 
----
+<br>
 
-#### 📌 How to invalidate a token
+<details>
+    <summary> <b> 📌 How to invalidate a token </b> </summary>
+<br>
 
 The logout operations revoke tokens directly from the database.
 
@@ -381,6 +422,7 @@ The logout operations revoke tokens directly from the database.
 
 </details>
 
+</details>
 
 
 
