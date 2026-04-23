@@ -16,5 +16,16 @@ class SupplierService
     {
         return Supplier::create($data);
     }
+
+    public function update(Supplier $supplier, array $data)
+    {
+        $supplier->update($data);
+        return $supplier;
+    }
+
+    public function delete(Supplier $supplier)
+    {
+        $supplier->delete();
+    }
 }
 

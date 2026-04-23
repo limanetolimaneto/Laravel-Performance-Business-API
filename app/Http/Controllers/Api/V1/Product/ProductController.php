@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Services\ProductService;
 use App\Http\Resources\Api\V1\Product\ProductResource;
 use App\Http\Requests\Api\V1\Product\StoreProductRequest;
+use App\Http\Requests\Api\V1\Product\UpdateProductRequest;
 
 class ProductController extends Controller
 {
@@ -35,15 +36,17 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        return new ProductResource($product);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(UpdateProductRequest $request, Product $product)
     {
-        //
+        $product = $this->service->update($product, $request->validated());
+
+        return new ProductResource($product);
     }
 
     /**
@@ -51,6 +54,9 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $this->service->delete($product);
+
+        return response()->json(['message' => 'Deleted']);
     }
+
 }

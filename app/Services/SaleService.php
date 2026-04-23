@@ -45,18 +45,33 @@ class SaleService
         return Sale::create($data);
     }
 
+    
 
 
-    public function listLazy()
-    {
-        return Sale::latest()->paginate(10);
-    }
 
-    public function listEager()
-    {
-        return Sale::with('client')
-            ->latest()
-            ->paginate(10);
-    }
+// SEE README → D.S_1 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Display data + Debugbar outcomes
+    |--------------------------------------------------------------------------
+    |
+    | Uncomment below to test using Laravel Debugbar.
+    |
+    */
+
+    // public function listLazy()
+    // {
+    //     return Sale::latest()->paginate(10);
+    // }
+
+    // public function listEager()
+    // {
+    //     return Sale::with('client')
+    //         ->latest()
+    //         ->paginate(10);
+    // }
+
+// ==================
 
 }

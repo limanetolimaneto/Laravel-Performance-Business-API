@@ -16,12 +16,29 @@ Route::prefix('v1')->group(function () {
         Route::get('/auth/me', [AuthController::class, 'me']);
         Route::post('/auth/logout', [AuthController::class, 'logout']);
         Route::apiResource('clients', ClientController::class);
+        // Route::get('/clients/{client}', [ClientController::class, 'show']);
         Route::apiResource('suppliers', SupplierController::class);
         Route::apiResource('products', ProductController::class);
         Route::apiResource('sales', SaleController::class);
     });
 
 });
+
+// postman --disable-gpu
+
+
+// GET    /clients            -> index
+// POST   /clients            -> store
+// GET    /clients/{client}   -> show
+// PUT    /clients/{client}   -> update
+// PATCH  /clients/{client}   -> update
+// DELETE /clients/{client}   -> destroy
+
+// resource() inclui: create() e edit()
+// usado mais para aplicações Blade / MVC clássico.
+
+// apiResource() não inclui: create() edit()
+// ideal para APIs REST.
 
 // php artisan optimize:clear
 // php artisan config:clear

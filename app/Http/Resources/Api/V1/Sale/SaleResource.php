@@ -16,7 +16,14 @@ class SaleResource extends JsonResource
             'client' => [
                 'id' => $this->client->id,
                 'name' => $this->client->name,
-            ]
+            ],
+            'products' => $this->products->map(function ($product) {
+                return [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'price' => $product->price,
+                ];
+            }),
         ];
     }
 }

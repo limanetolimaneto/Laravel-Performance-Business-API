@@ -16,4 +16,16 @@ class ProductService
     {
         return Product::create($data);
     }
+
+    public function update(Product $product, array $data)
+    {
+        $product->update($data);
+        return $product;
+    }
+
+    public function delete(Product $product)
+    {
+        $product->delete();
+    }
+
 }

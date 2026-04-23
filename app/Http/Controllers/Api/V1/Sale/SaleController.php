@@ -24,4 +24,25 @@ class SaleController extends Controller
 
         return new SaleResource($sale);
     }
+
+    public function show(Sale $sale)
+    {
+        return new SaleResource($sale);
+    }
+
+    public function update(UpdateSaleRequest $request)
+    {
+        $sale = $this->service->update($sale, $request->validated());
+
+        return new SaleResource($sale);
+    }
+
+    public function destroy(Sale $sale)
+    {
+        $this->service->delete($sale);
+
+        return response()->json(['message' => 'Deleted']);
+    }
+
+    
 }

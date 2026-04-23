@@ -7,6 +7,7 @@ use App\Models\Supplier;
 use App\Services\SupplierService;
 use App\Http\Resources\Api\V1\Supplier\SupplierResource;
 use App\Http\Requests\Api\V1\Supplier\StoreSupplierRequest;
+use App\Http\Requests\Api\V1\Supplier\UpdateSupplierRequest;
 
 class SupplierController extends Controller
 {
@@ -35,15 +36,17 @@ class SupplierController extends Controller
      */
     public function show(Supplier $supplier)
     {
-        //
+        return new SupplierResource($supplier);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Supplier $supplier)
+    public function update(UpdateSupplierRequest $request, Supplier $supplier)
     {
-        //
+          $supplier = $this->service->update($supplier, $request->validated());
+
+        return new SupplierResource($supplier);
     }
 
     /**
@@ -51,6 +54,8 @@ class SupplierController extends Controller
      */
     public function destroy(Supplier $supplier)
     {
-        //
+        $this->service->delete($supplier);
+
+        return response()->json(['message' => 'Deleted']);
     }
 }
