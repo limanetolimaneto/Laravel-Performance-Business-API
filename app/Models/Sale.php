@@ -20,9 +20,29 @@ class Sale extends Model
     }
 
     public function products(){
-        return $this->belongsToMany(Product::class);
+        return $this->belongsToMany(Product::class)->withPivot(['quantity','amount']);
     }
 
 
+//  DOMAIN MINDSET NOTES 1
 
+    // A model knows how to calculate its own total.
+
+    public function recalculateTotal(): self
+    {
+        //  Using '$this->products()->get()->sum()' instead '$this->products->sum()'
+        //      -   This ensures that the data in the database is up-to-date;
+        //      -   '$this->products' may have a loaded relationship cache;
+        //      -   This prevents inconsistency.
+        $totalAmount = $this->products()->get()->sum(function ($product) {
+            return $product->pivot->amount;
+        });
+
+        $this->update([
+            'total_amount' => $totalAmount
+        ]);
+
+        return $this;
+    }
+//  ======================
 }

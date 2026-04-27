@@ -22,6 +22,7 @@ class SaleResource extends JsonResource
                     'id' => $product->id,
                     'name' => $product->name,
                     'price' => $product->price,
+                    'quantity' => $product->pivot->quantity,
                 ];
             }),
         ];

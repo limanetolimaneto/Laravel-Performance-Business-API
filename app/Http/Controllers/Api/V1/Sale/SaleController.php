@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api\V1\Sale;
 
 use App\Http\Controllers\Controller;
 use App\Services\SaleService;
+use App\Models\Sale;
 use App\Http\Resources\Api\V1\Sale\SaleResource;
 use App\Http\Requests\Api\V1\Sale\StoreSaleRequest;
+use App\Http\Requests\Api\V1\Sale\UpdateSaleRequest;
 
 class SaleController extends Controller
 {
@@ -94,12 +96,44 @@ class SaleController extends Controller
         return new SaleResource($sale);
     }
 
-    public function update(UpdateSaleRequest $request)
+// Atualizacao de vendas conforme regra de negocio
+    //  Uma venda pode ser atualizada de modo que :
+        //  1 ou mais itens sejam substituidos
+        //  1 ou mais itens sejam adicionados
+        //  1 ou mais itens sejam excluidos
+        //  O json recebido deve possuir o formato:
+        //  {
+        //      "replace" : [
+        //                      [   
+        //                          product_id: 1,
+        //                          new_poduct: [
+        //                                          id: 2,
+        //                                          quantity: 2
+        //                                      ]                   
+        //                      ]
+        //                 ],
+        //      "insert": {
+        //                  "product_id": 3,
+        //                  "quantity": 2          
+        //                }
+        //      "destroy": [
+        //                      {
+        //                          "product_id": 4    
+        //                      },
+        //                      {
+        //                          "product_id": 5
+        //                      }
+        //                 ]    
+        //  }    
+    //  -------------------------------------------
+// ===============================================
+    public function update(UpdateSaleRequest $request, Sale $sale)
     {
         $sale = $this->service->update($sale, $request->validated());
-
-        return new SaleResource($sale);
+        return $sale;
+        // return new SaleResource($sale);
     }
+
 
     public function destroy(Sale $sale)
     {
