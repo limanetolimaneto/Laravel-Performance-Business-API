@@ -207,6 +207,15 @@ class SaleService
         });
     }
 
+    public function delete(Sale $sale)
+    {
+        $client = $sale->client;
+
+        $sale->delete();
+
+        $client->recalculateTotalSpent();
+
+    }
 
 // SEE README → D.S_1 
 

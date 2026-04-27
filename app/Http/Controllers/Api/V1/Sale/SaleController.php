@@ -130,8 +130,8 @@ class SaleController extends Controller
     public function update(UpdateSaleRequest $request, Sale $sale)
     {
         $sale = $this->service->update($sale, $request->validated());
-        return $sale;
-        // return new SaleResource($sale);
+        // return $sale;
+        return new SaleResource($sale);
     }
 
 
