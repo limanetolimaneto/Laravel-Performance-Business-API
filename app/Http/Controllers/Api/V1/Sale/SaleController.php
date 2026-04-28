@@ -97,7 +97,7 @@ class SaleController extends Controller
 
         return new SaleResource($sale);
     }
-    
+
 // ==================
 
     public function show(Sale $sale)

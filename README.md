@@ -548,7 +548,7 @@ The logout operations revoke tokens directly from the database.
 <!-- #region Asynchronous_Job_Execution_with_Laravel_Queues -->
 
 <details>
-    <summary> <b> Comparing synchronous email sending vs queued job processing in Laravel. </b> </summary>
+    <summary> <b> D.S_4 Comparing synchronous email sending vs queued job processing in Laravel. </b> </summary>
 <br>
 
 **Why moving email sending from synchronous execution to queued jobs improves performance, scalability, and user experience in Laravel applications.**
@@ -601,15 +601,76 @@ The logout operations revoke tokens directly from the database.
 <!-- #region Laravel_log_evidencces -->
 
 <details>
-    <summary> <b> Proof of Execution </b> </summary>
+    <summary> <b> ➡️ Proof of Execution - Screenshots </b> </summary>
 <br>
 
-Show queue:work running
-Show job processed in terminal
-Optional screenshot:
-Laravel log
-Queue worker output
-Email received
+<!-- #region time_of_execution -->
+
+<details>
+    <summary> <b> Time of Execution </b> </summary>
+<br>
+
+- Sync Email Test
+
+![Sync Email Test](screenshots/email-sync-time.png)
+
+*Everything happens within the same request.*
+
+- Async Email Test
+
+![Async Email Test](screenshots/email-async-time.png)
+
+*Business logic fully decoupled from HTTP layer.*
+
+</details>
+
+<!-- #endregion -->
+
+<!-- #region request_fow -->
+
+<details>
+    <summary> <b> Request flow </b> </summary>
+<br>
+
+- The request lifecycle is blocked until email is sent.
+
+![SaleController](email-controller.png)
+
+*Synchronous execution happening within the request.*
+
+- Request lifecycle remains non-blocking.
+
+![php artisan queue:work](email-worker.png)
+
+*Job processed asynchronously via queue worker.*
+
+</details>
+
+<!-- #endregion -->
+
+</details>
+
+
+<!-- #endregion -->
+
+<br>
+
+<!-- #region Key_insight -->
+
+<details>
+    <summary> <b> ➡️ Key insight <b> </summary>
+
+Controller
+   ↓
+SaleService
+   ↓
+SaleCreated Event
+   ↓
+Listener
+   ↓
+Job (SendSaleConfirmationEmailJob)
+   ↓
+Queue Worker
 
 </details>
 
