@@ -683,14 +683,14 @@ Controller → SaleService → SaleCreated Event → Listener → Job (SendSaleC
 <!-- #region report_generation_optimization -->
 
 <details>
-    <summary> <b> D.S_5 Where Query Builder is often superior to Eloquent due to the cost of model hydration and memory usage. </b> </summary>
+    <summary> <b> D.S_5 Where Query Builder is often superior to Eloquent. </b> </summary>
 
 <br>
 
 **General Rule:**
 
-- Use Eloquent for business rules
-- use Query Builder for reporting and analytics
+- Eloquent for business rules
+- Query Builder for reporting and analytics
 
 <!-- #endregion -->
 
@@ -699,13 +699,13 @@ Controller → SaleService → SaleCreated Event → Listener → Job (SendSaleC
 <!-- #region report_1 -->
 
 <details>
-    <summary> <b> Sales Summary Report. </b> </summary>
+    <summary> <b> Report 1 → Sales Summary Report. </b> </summary>
 
 <br>
 
 <!-- #region report_1_eloquent -->
 
-**Eloquent**
+**Using Eloquent - Not recomended**
 
 *app/Services/ReportService.php*
 
@@ -738,12 +738,7 @@ public function salesSummary(Request $request)
 
 ➡️ Laravel Logs Evidence
 
-- Eloquent Test
-
 ![Eloquent Test](screenshots/report-1-eloquent.png)
-
-*.Eloquent*
-
 
 <!-- #endregion -->
 
@@ -751,7 +746,9 @@ public function salesSummary(Request $request)
 
 <!-- #region report_1_query_builder -->
 
-**Query Builder**
+**Using Query Builder - Recomended**
+
+*app/Services/ReportService.php*
 
 ```php
 public function salesSummary(Request $request)
@@ -785,14 +782,10 @@ public function salesSummary(Request $request)
 }
 ```
 
-
 ➡️ Laravel Logs Evidence
-
-- Query Builder
 
 ![Query Bulder Test](screenshots/report-1-query-builder.png)
 
-*Query builder*
 
 <!-- #endregion -->
 
