@@ -14,7 +14,7 @@ A high-performance backend system built with Laravel, designed to demonstrate ad
 
 - Query optimization;
 - Sanctum authentication;
-- Job-based email system;
+- Queued Email System;
 
 It is designed as a portfolio piece targeting backend and Laravel developer roles on platforms such as Upwork.
 
@@ -545,17 +545,75 @@ The logout operations revoke tokens directly from the database.
 
 <!-- #region D.S_4 -->
 
-<!-- #region Assunto_a_ser_analisado -->
+<!-- #region Asynchronous_Job_Execution_with_Laravel_Queues -->
 
 <details>
-    <summary> <b> D.S 4 Introducao ao assunto que sera analisado </b> </summary>
+    <summary> <b> Comparing synchronous email sending vs queued job processing in Laravel. </b> </summary>
 <br>
 
-**...**
+**Why moving email sending from synchronous execution to queued jobs improves performance, scalability, and user experience in Laravel applications.**
 
-</details>
 <!-- #endregion -->
 
+<br>
+
+<!-- #region Synchronous_Execution -->
+
+<details>
+    <summary> <b> ❌ Non-recommended Approach (Synchronous Execution) </b> </summary>
+<br>
+
+- Email sent directly inside Controller
+- Request waits for SMTP response
+- High latency on user action
+- Tight coupling between business logic and infrastructure
+- Example:
+    - SaleCreated → SendSaleConfirmationEmail executed immediately
+
+</details>
+
+<!-- #endregion -->
+
+<br>
+
+<!-- #region Queued_job> -->
+
+<details>
+    <summary> <b> ✅ Recommended Approach (Queued Job Execution) </b> </summary>
+<br>
+
+- Dispatch Job: SendSaleConfirmationEmailJob
+- Job handled by queue worker (Redis/Database)
+- Non-blocking request lifecycle
+- Improved performance and scalability
+- Flow:
+    - SaleCreated
+        → Event triggered
+        → Listener dispatches Job
+        → Queue Worker processes email asynchronously
+
+</details>
+
+<!-- #endregion -->
+
+<br>
+
+<!-- #region Laravel_log_evidencces -->
+
+<details>
+    <summary> <b> Proof of Execution </b> </summary>
+<br>
+
+Show queue:work running
+Show job processed in terminal
+Optional screenshot:
+Laravel log
+Queue worker output
+Email received
+
+</details>
+
+<!-- #endregion -->
 
 <!-- #endregion -->
 

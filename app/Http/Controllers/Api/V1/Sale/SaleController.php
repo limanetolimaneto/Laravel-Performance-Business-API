@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Api\V1\Sale;
 use App\Http\Controllers\Controller;
 use App\Services\SaleService;
 use App\Models\Sale;
+use App\Models\Product;
 use App\Http\Resources\Api\V1\Sale\SaleResource;
 use App\Http\Requests\Api\V1\Sale\StoreSaleRequest;
 use App\Http\Requests\Api\V1\Sale\UpdateSaleRequest;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Sale\SaleConfirmationMail;
 
 class SaleController extends Controller
 {
@@ -20,52 +23,73 @@ class SaleController extends Controller
         );
     }
 
-// Cenario API Rest para salvar tabela com relacionamento
-  
-    
-    // 1. Iniciar transaction
-        //  DB::transaction(function () {
-        //  ...
-        //  });
-        // Isso é obrigatório nesse cenário.
-        //      Se algo falhar, tudo volta.
-        //      Isso é padrão profissional.
-    // ===================
-    // 2. Criar a venda
-        //  $sale = Sale::create([
-        //      'client_id' => $request->client_id,
-        //      'total_amount' => 0
-        //  ]);
-    // ================
-    // 3. Salvar productos na pivot
-        // $totalAmount = 0;
-        // foreach ($request->products as $item) {
-        //     $amount = $item['quantity'] * $item['unit_price'];
-        //     $sale->products()->attach($item['product_id'], [
-        //         'quantity' => $item['quantity'],
-        //         'unit_price' => $item['unit_price'],
-        //         'amount' => $amount
-        //     ]);
-        //     $totalAmount += $amount;
-        // }
-    // ============================
-    // 4. Atualizar o total da venda
-        // $sale->update([
-        //     'total_amount' => $totalAmount
-        // ]);
-    // =============================
-    // 5. Atualizar o total do client
-        //  $client->update([
-        //      'total_spent' => $client->total_spent + $totalAmount
-        //  ]);
-    // ==============================
+// SEE README → D.S_4 
+    /*
+    |--------------------------------------------------------------------------
+    | Synchronous Execution (NOT RECOMMENDED)
+    |--------------------------------------------------------------------------
+    |
+    | Uncomment below to test using Laravel logs.
+    |
+    */    
 
-    // Controller → recebe request
-    // FormRequest → valida dados
-    // Service → regra de negócio + transaction
-    // Model → relacionamento + persistência
-    // Resource → resposta da API
-// ======================================================
+    // public function store(StoreSaleRequest $request)
+    // {
+    //     $data = $request->validated();
+    //     $sale = Sale::create([
+    //             'client_id' => $data['client_id'],
+    //             'total_amount' => 0,
+    //         ]);
+    //     $totalAmount = 0;
+
+    //     foreach ($data['products'] as $item) {
+    //         $product = Product::findOrFail($item['product_id']);
+    //         $amount = $item['quantity'] * $product->price;
+
+    //         $sale->products()->attach($item['product_id'], 
+    //         [
+    //             'quantity' => $item['quantity'],
+    //             'amount' => $amount,
+    //         ]);
+    //         $totalAmount += $amount;
+    //     }
+
+    //     $sale->update([
+    //         'total_amount' => $totalAmount,
+    //     ]);
+
+    //     $sale->client()->increment('total_spent', $totalAmount);
+
+    //     Mail::to($sale->client->email)->send(new SaleConfirmationMail($sale));
+
+    //     return new SaleResource($sale->load('products', 'client'));
+        
+    // }
+    
+     /*
+    |--------------------------------------------------------------------------
+    | Problems
+    |--------------------------------------------------------------------------
+    |
+    | - Blocks HTTP response until email is sent (slow API response)
+    | - User waits for SMTP processing
+    | - Couples business logic with external service (SMTP)
+    | - Poor scalability under high traffic
+    | - No retry strategy if mail fails during request
+    |
+    |--------------------------------------------------------------------------
+    */
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Asynchronous Execution (RECOMMENDED)
+    |--------------------------------------------------------------------------
+    |
+    | Fully decoupled execution using Laravel Jobs & Queues.
+    |
+    */
 
     public function store(StoreSaleRequest $request)
     {
@@ -73,6 +97,8 @@ class SaleController extends Controller
 
         return new SaleResource($sale);
     }
+    
+// ==================
 
     public function show(Sale $sale)
     {
