@@ -21,24 +21,7 @@ class SaleController extends Controller
     }
 
 // Cenario API Rest para salvar tabela com relacionamento
-    // == Fluxo de negocio 
-        // => Endpoint para venda  =  POST /api/v1/sales
-        // O frontend envia algo assim:
-            // {
-            //     "client_id": 1,
-            //     "products": [
-            //         {
-            //          "product_id": 3,
-            //          "quantity": 2,
-            //         },
-            //         {
-            //          "product_id": 7,
-            //          "quantity": 1,
-            //         }
-            //     ]
-            // }
-        // ============================
-    // =================== 
+  
     
     // 1. Iniciar transaction
         //  DB::transaction(function () {
@@ -96,44 +79,12 @@ class SaleController extends Controller
         return new SaleResource($sale);
     }
 
-// Atualizacao de vendas conforme regra de negocio
-    //  Uma venda pode ser atualizada de modo que :
-        //  1 ou mais itens sejam substituidos
-        //  1 ou mais itens sejam adicionados
-        //  1 ou mais itens sejam excluidos
-        //  O json recebido deve possuir o formato:
-        //  {
-        //      "replace" : [
-        //                      [   
-        //                          product_id: 1,
-        //                          new_poduct: [
-        //                                          id: 2,
-        //                                          quantity: 2
-        //                                      ]                   
-        //                      ]
-        //                 ],
-        //      "insert": {
-        //                  "product_id": 3,
-        //                  "quantity": 2          
-        //                }
-        //      "destroy": [
-        //                      {
-        //                          "product_id": 4    
-        //                      },
-        //                      {
-        //                          "product_id": 5
-        //                      }
-        //                 ]    
-        //  }    
-    //  -------------------------------------------
-// ===============================================
     public function update(UpdateSaleRequest $request, Sale $sale)
     {
         $sale = $this->service->update($sale, $request->validated());
         // return $sale;
         return new SaleResource($sale);
     }
-
 
     public function destroy(Sale $sale)
     {

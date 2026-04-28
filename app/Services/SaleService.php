@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Sale;
 use App\Models\Product;
 use Illuminate\Support\Facades\DB;
+use App\Events\Sale\SaleCreated;
 
 class SaleService
 {
@@ -42,8 +43,30 @@ class SaleService
         ->paginate(10);
     }
 
-    
+    // REST API + BUSINESS FLOW
+        
+        // Expected JSON payload:
+            // {
+            //     "client_id": 1,
+            //     "products": [
+            //         {
+            //          "product_id": 3,
+            //          "quantity": 2,
+            //         },
+            //         {
+            //          "product_id": 7,
+            //          "quantity": 1,
+            //         }
+            //     ]
+            // }
+        // =====================
 
+        // 1. Create a new sale
+        // 2. Create n pivot register
+        // 3. Update sale's total_amount
+        // 4. Update clients' total_spent
+        
+    // ========================
     public function create(array $data): Sale
     {        
         return DB::transaction(function () use ($data) {
@@ -71,6 +94,8 @@ class SaleService
             ]);
 
             $sale->client()->increment('total_spent', $totalAmount);
+
+            SaleCreated::dispatch($sale);
 
             return $sale->load('products', 'client');
         });

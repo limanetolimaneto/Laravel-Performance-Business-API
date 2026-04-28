@@ -25,7 +25,9 @@ Route::prefix('v1')->group(function () {
 });
 
 // postman --disable-gpu
-
+// rm -rf ~/snap/postman/common/.config/Postman/Cache/*
+// rm -rf ~/snap/postman/common/.config/Postman/GPUCache/*
+// rm -rf ~/snap/postman/common/.config/Postman/Partitions/*
 
 // GET    /clients            -> index
 // POST   /clients            -> store
