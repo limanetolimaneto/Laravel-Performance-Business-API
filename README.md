@@ -10,7 +10,7 @@
 
 ---
 
-A high-performance backend system built with Laravel, designed to demonstrate advanced backend engineering concepts including best practices using 
+A high-performance backend system built with Laravel, designed to demonstrate advanced backend engineering concepts including best practices using: 
 
 - Query optimization;
 - Sanctum authentication;
