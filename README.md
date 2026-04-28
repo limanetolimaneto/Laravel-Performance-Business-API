@@ -634,13 +634,13 @@ The logout operations revoke tokens directly from the database.
 
 - The request lifecycle is blocked until email is sent.
 
-![SaleController](email-controller.png)
+![SaleController](screenshots/email-controller.png)
 
 *Synchronous execution happening within the request.*
 
 - Request lifecycle remains non-blocking.
 
-![php artisan queue:work](email-worker.png)
+![php artisan queue:work](screenshots/email-worker.png)
 
 *Job processed asynchronously via queue worker.*
 
