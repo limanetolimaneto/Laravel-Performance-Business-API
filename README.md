@@ -14,6 +14,7 @@ A high-performance backend system built with Laravel, designed to demonstrate ad
 
 - Query optimization;
 - Sanctum authentication;
+- Job-based email system;
 
 It is designed as a portfolio piece targeting backend and Laravel developer roles on platforms such as Upwork.
 
@@ -538,6 +539,28 @@ The logout operations revoke tokens directly from the database.
 
 ---
 
+
+<!-- ================================================================ -->
+<!-- D.S 4 ========================================================== -->
+
+<!-- #region D.S_4 -->
+
+<!-- #region Assunto_a_ser_analisado -->
+
+<details>
+    <summary> <b> D.S 4 Introducao ao assunto que sera analisado </b> </summary>
+<br>
+
+**...**
+
+</details>
+<!-- #endregion -->
+
+
+<!-- #endregion -->
+
+<!-- D.S 4 ========================================================== -->
+<!-- ================================================================ -->
 
 
 
