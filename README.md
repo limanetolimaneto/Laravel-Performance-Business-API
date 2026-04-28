@@ -576,7 +576,7 @@ The logout operations revoke tokens directly from the database.
 
 <br>
 
-<!-- #region Queued_job> -->
+<!-- #region Queued_job -->
 
 <details>
     <summary> <b> ✅ Recommended Approach (Queued Job Execution) </b> </summary>
@@ -660,17 +660,7 @@ The logout operations revoke tokens directly from the database.
 <details>
     <summary> <b> ➡️ Key insight <b> </summary>
 
-Controller
-   ↓
-SaleService
-   ↓
-SaleCreated Event
-   ↓
-Listener
-   ↓
-Job (SendSaleConfirmationEmailJob)
-   ↓
-Queue Worker
+Controller → SaleService → SaleCreated Event → Listener → Job (SendSaleConfirmationEmailJob) → Queue Worker
 
 </details>
 
