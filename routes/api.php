@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\V1\Client\ClientController;
 use App\Http\Controllers\Api\V1\Supplier\SupplierController;
 use App\Http\Controllers\Api\V1\Product\ProductController;
 use App\Http\Controllers\Api\V1\Sale\SaleController;
+use App\Http\Controllers\Api\V1\ReportController;
 
 Route::prefix('v1')->group(function () {
 
@@ -20,6 +21,11 @@ Route::prefix('v1')->group(function () {
         Route::apiResource('suppliers', SupplierController::class);
         Route::apiResource('products', ProductController::class);
         Route::apiResource('sales', SaleController::class);
+        
+        Route::prefix('reports')->group(function () {
+            Route::get('/sales-summary', [ReportController::class, 'salesSummary']);
+            Route::get('/top-selling-products', [ReportController::class, 'topSellingProducts']);
+        });
     });
 
 });

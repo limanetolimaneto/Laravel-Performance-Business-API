@@ -15,6 +15,7 @@ A high-performance backend system built with Laravel, designed to demonstrate ad
 - Query optimization;
 - Sanctum authentication;
 - Queued Email System;
+- Report Generation Optimization
 
 It is designed as a portfolio piece targeting backend and Laravel developer roles on platforms such as Upwork.
 
@@ -539,7 +540,6 @@ The logout operations revoke tokens directly from the database.
 
 ---
 
-
 <!-- ================================================================ -->
 <!-- D.S 4 ========================================================== -->
 
@@ -664,11 +664,193 @@ Controller → SaleService → SaleCreated Event → Listener → Job (SendSaleC
 
 </details>
 
+</details> 
+
 <!-- #endregion -->
 
 <!-- #endregion -->
 
 <!-- D.S 4 ========================================================== -->
+<!-- ================================================================ -->
+
+---
+
+<!-- ================================================================ -->
+<!-- D.S 5 ========================================================== -->
+
+<!-- #region D.S_5 -->
+
+<!-- #region report_generation_optimization -->
+
+<details>
+    <summary> <b> D.S_5 Where Query Builder is often superior to Eloquent due to the cost of model hydration and memory usage. </b> </summary>
+
+<br>
+
+**General Rule:**
+
+- Use Eloquent for business rules
+- use Query Builder for reporting and analytics
+
+<!-- #endregion -->
+
+<br>
+
+<!-- #region report_1 -->
+
+<details>
+    <summary> <b> Sales Summary Report. </b> </summary>
+
+<br>
+
+<!-- #region report_1_eloquent -->
+
+**Eloquent**
+
+*app/Services/ReportService.php*
+
+```php
+public function salesSummary(Request $request)
+{
+    $startDate = $request->get('start_date');
+    $endDate   = $request->get('end_date');
+
+    return Sale::with(['client', 'products'])
+                ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+                    $query->whereBetween('created_at', [
+                        $startDate,
+                        $endDate
+                    ]);
+                })
+                ->orderByDesc('created_at')
+                ->get()
+                ->map(function ($sale) {
+                    return [
+                        'id' => $sale->id,
+                        'client_name' => $sale->client->name,
+                        'total_amount' => $sale->total_amount,
+                        'created_at' => $sale->created_at,
+                        'total_items' => $sale->products->count(),
+                    ];
+                });
+}
+```
+
+➡️ Laravel Logs Evidence
+
+- Eloquent Test
+
+![Eloquent Test](screenshots/report-1-eloquent.png)
+
+*.Eloquent*
+
+
+<!-- #endregion -->
+
+<br>
+
+<!-- #region report_1_query_builder -->
+
+**Query Builder**
+
+```php
+public function salesSummary(Request $request)
+{
+    $startDate = $request->get('start_date');
+    $endDate   = $request->get('end_date');
+    return DB::table('sales')
+            ->join('clients', 'sales.client_id', '=', 'clients.id')
+            ->join('product_sale', 'sales.id', '=', 'product_sale.sale_id')
+            ->select(
+                'sales.id',
+                'clients.name as client_name',
+                'sales.total_amount',
+                'sales.created_at',
+                DB::raw('COUNT(product_sale.id) as total_items')
+            )
+            ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+                $query->whereBetween('sales.created_at', [
+                    $startDate,
+                    $endDate
+                ]);
+            })
+            ->groupBy(
+                'sales.id',
+                'clients.name',
+                'sales.total_amount',
+                'sales.created_at'
+            )
+            ->orderByDesc('sales.created_at')
+            ->get();
+}
+```
+
+
+➡️ Laravel Logs Evidence
+
+- Query Builder
+
+![Query Bulder Test](screenshots/report-1-query-builder.png)
+
+*Query builder*
+
+<!-- #endregion -->
+
+</details>
+
+<!-- #endregion -->
+
+<br>
+
+<!-- #region report_2 -->
+
+<details>
+    <summary> <b> Top Selling Products Report. </b> </summary>
+
+<br>
+
+<!-- #region report_2_eloquent -->
+
+**eloquent**
+
+```php
+Product::with('saleItems')
+    ->get()
+    ->groupBy(...)
+```
+
+<!-- #endregion -->
+
+<!-- #region report_2_query_builder -->
+
+**Query Builder**
+
+```php
+DB::table('sale_items')
+    ->join('products', ...)
+    ->selectRaw('products.name, SUM(quantity) as total_sold')
+    ->groupBy('products.name')
+    ->orderByDesc('total_sold')
+    ->get();
+```
+
+<!-- #endregion -->
+
+</details>
+
+<!-- #endregion -->
+
+<br>
+
+<!-- #region key_insight -->
+
+</details>
+
+<!-- #endregion -->
+
+<!-- #endregion -->
+
+<!-- D.S 5 ========================================================== -->
 <!-- ================================================================ -->
 
 
