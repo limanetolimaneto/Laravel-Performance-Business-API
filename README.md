@@ -705,8 +705,10 @@ Controller → SaleService → SaleCreated Event → Listener → Job (SendSaleC
 
 <!-- #region report_1_eloquent -->
 
+<details>
+    <summary>❌ Using Eloquent - Not recomended</summary>
 
-**❌ Using Eloquent - Not recomended**
+<br>
 
 *app/Services/ReportService.php*
 
@@ -739,13 +741,18 @@ public function salesSummary(Request $request)
 
 ![Eloquent Test](screenshots/report-1-eloquent.png)
 
+</details>
+
 <!-- #endregion -->
 
 <br>
 
 <!-- #region report_1_query_builder -->
 
-**✅ Using Query Builder - Recomended**
+<details>
+    <summary> ✅ Using Query Builder - Recomended </summary>
+
+<br>
 
 *app/Services/ReportService.php*
 
@@ -784,6 +791,7 @@ public function salesSummary(Request $request)
 
 ![Query Bulder Test](screenshots/report-1-query-builder.png)
 
+</details>
 
 <!-- #endregion -->
 
@@ -808,7 +816,7 @@ public function salesSummary(Request $request)
 <!-- #region report_2_eloquent -->
 
 <details>
-    <summary>**❌ Using Eloquent - Not recomended**</summary>
+    <summary> ❌ Using Eloquent - Not recomended </summary>
 
 <br>
 
@@ -857,7 +865,7 @@ Total: multiple hydration cycles
 <!-- #region report_2_query_builder -->
 
 <details>
-    <summary>**✅ Using Query Builder - Recomended**</summary>
+    <summary> ✅ Using Query Builder - Recomended </summary>
 
 <br>
 
