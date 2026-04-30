@@ -706,7 +706,7 @@ Controller → SaleService → SaleCreated Event → Listener → Job (SendSaleC
 <!-- #region report_1_eloquent -->
 
 <details>
-    <summary>❌ Using Eloquent - Not recomended</summary>
+    <summary>❌ Using Eloquent </summary>
 
 <br>
 
@@ -731,7 +731,7 @@ Sale::with(['client', 'products'])
 <!-- #region report_1_query_builder -->
 
 <details>
-    <summary> ✅ Using Query Builder - Recomended </summary>
+    <summary> ✅ Using Query Builder </summary>
 
 <br>
 
@@ -778,7 +778,7 @@ DB::table('sales')
 <!-- #region report_2_eloquent -->
 
 <details>
-    <summary> ❌ Using Eloquent - Not recomended </summary>
+    <summary> ❌ Using Eloquent </summary>
 
 <br>
 
@@ -804,10 +804,12 @@ Total: multiple hydration cycles
 
 <!-- #endregion -->
 
+<br>
+
 <!-- #region report_2_query_builder -->
 
 <details>
-    <summary> ✅ Using Query Builder - Recomended </summary>
+    <summary> ✅ Using Query Builder </summary>
 
 <br>
 
