@@ -687,7 +687,7 @@ Controller → SaleService → SaleCreated Event → Listener → Job (SendSaleC
 
 <br>
 
-**General Rule:**
+**📌 General Rule:**
 
 - Eloquent for business rules
 - Query Builder for reporting and analytics
@@ -705,16 +705,14 @@ Controller → SaleService → SaleCreated Event → Listener → Job (SendSaleC
 
 <!-- #region report_1_eloquent -->
 
-**Using Eloquent - Not recomended**
+**❌ Using Eloquent - Not recomended**
 
 *app/Services/ReportService.php*
 
 ```php
 public function salesSummary(Request $request)
 {
-    $startDate = $request->get('start_date');
-    $endDate   = $request->get('end_date');
-
+    ...
     return Sale::with(['client', 'products'])
                 ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
                     $query->whereBetween('created_at', [
@@ -746,15 +744,14 @@ public function salesSummary(Request $request)
 
 <!-- #region report_1_query_builder -->
 
-**Using Query Builder - Recomended**
+**✅ Using Query Builder - Recomended**
 
 *app/Services/ReportService.php*
 
 ```php
 public function salesSummary(Request $request)
 {
-    $startDate = $request->get('start_date');
-    $endDate   = $request->get('end_date');
+    ...
     return DB::table('sales')
             ->join('clients', 'sales.client_id', '=', 'clients.id')
             ->join('product_sale', 'sales.id', '=', 'product_sale.sale_id')
@@ -798,13 +795,15 @@ public function salesSummary(Request $request)
 <!-- #region report_2 -->
 
 <details>
-    <summary> <b> Top Selling Products Report. </b> </summary>
+    <summary> <b> Report 2 → Top Selling Products Report. </b> </summary>
 
 <br>
 
 <!-- #region report_2_eloquent -->
 
-**eloquent**
+**❌ Using Eloquent - Not recomended**
+
+*app/Services/ReportService.php*
 
 ```php
 Product::with('saleItems')
@@ -816,7 +815,10 @@ Product::with('saleItems')
 
 <!-- #region report_2_query_builder -->
 
-**Query Builder**
+**✅ Using Query Builder - Recomended**
+
+
+
 
 ```php
 DB::table('sale_items')
@@ -836,6 +838,8 @@ DB::table('sale_items')
 <br>
 
 <!-- #region key_insight -->
+
+
 
 </details>
 

@@ -5,6 +5,7 @@ namespace App\Services;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Sale;
+use App\Models\Product;
 
 class ReportService
 {
@@ -80,20 +81,36 @@ class ReportService
      */
     public function topSellingProducts()
     {
-        return DB::table('sale_items')
-            ->join('products', 'sale_items.product_id', '=', 'products.id')
-            ->select(
-                'products.id',
-                'products.name',
-                DB::raw('SUM(sale_items.quantity) as total_sold'),
-                DB::raw('SUM(sale_items.quantity * sale_items.unit_price) as total_revenue')
-            )
-            ->groupBy(
-                'products.id',
-                'products.name'
-            )
-            ->orderByDesc('total_sold')
-            ->limit(10)
-            ->get();
+        return Product::with(['saleItems'])
+            ->get()
+            ->map(function ($product) {
+                return [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'total_sold' => $product->saleItems->sum('pivot.quantity'),
+                    'total_revenue' => $product->saleItems->sum('pivot.amount'),
+                    'total_lines' => $product->saleItems->count(),
+                    ];
+                })
+            ->sortByDesc('total_sold')
+            ->take(10)
+            ->values();
+
+        // return DB::table('product_sale')
+        //     ->join('products', 'product_sale.product_id', '=', 'products.id')
+        //     ->select(
+        //         'products.id',
+        //         'products.name',
+        //         DB::raw('SUM(product_sale.quantity) as total_sold'),
+        //         DB::raw('SUM(product_sale.amount) as total_revenue'),
+        //         DB::raw('COUNT(product_sale.id) as total_lines')
+        //     )
+        //     ->groupBy(
+        //         'products.id',
+        //         'products.name'
+        //     )
+        //     ->orderByDesc('total_sold')
+        //     ->limit(10)
+        //     ->get();
     }
 }
