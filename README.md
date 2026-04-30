@@ -5,6 +5,7 @@
 *This project simulates a real-world business management system with a focus on performance, clean architecture, and asynchronous processing.*
 
 ![MIT License](https://img.shields.io/badge/license-MIT-green)
+![PHP8+](https://img.shields.io/badge/Language-PHP8+-blue?logo=php)
 ![Laravel](https://img.shields.io/badge/backend-Laravel-red)
 ![MySQL](https://img.shields.io/badge/database-MySQL-yellow)
 
@@ -27,12 +28,13 @@ It is designed as a portfolio piece targeting backend and Laravel developer role
 
 ## 🛠 Tech Stack
 
+- PHP 8.3
 - Laravel 11+
 - Laravel Sanctum
 - MySQL
-- Redis
 - Laravel Queues
-- DomPDF (reports)
+- Laravel Debugbar
+- Postman
 
 <!-- #endregion -->
 
