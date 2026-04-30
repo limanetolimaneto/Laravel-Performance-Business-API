@@ -799,6 +799,11 @@ public function salesSummary(Request $request)
 
 <br>
 
+💡 Important!
+ 
+- While Query Builder executed a heavier aggregated SQL query, it reduced application-side processing by eliminating model hydration and relationship traversal
+- Eloquent distributed the workload across multiple queries and PHP processing, increasing application overhead despite lower individual query latency.
+
 <!-- #region report_2_eloquent -->
 
 **❌ Using Eloquent - Not recomended**
@@ -806,10 +811,40 @@ public function salesSummary(Request $request)
 *app/Services/ReportService.php*
 
 ```php
-Product::with('saleItems')
-    ->get()
-    ->groupBy(...)
+public function topSellingProducts()
+{
+    return Product::with(['sales.products'])
+        ->get()
+        ->map(function ($product) {
+
+            $pivotItems = $product->sales->flatMap(function ($sale) use ($product) {
+                return $sale->products->where('id', $product->id);
+            });
+
+            return [
+                'id' => $product->id,
+                'name' => $product->name,
+                'total_sold' => $pivotItems->sum('pivot.quantity'),
+                'total_revenue' => $pivotItems->sum('pivot.amount'),
+                'total_lines' => $pivotItems->count(),
+            ];
+        })
+        ->sortByDesc('total_sold')
+        ->take(10)
+        ->values();
+}
 ```
+
+➡️ Laravel Logs Evidence
+
+![Eloquent Test](screenshots/report-2-eloquent.png)
+
+3 queries executed
+- products
+- sales (pivot join)
+- products (pivot join again)
+
+Total: multiple hydration cycles
 
 <!-- #endregion -->
 
@@ -817,7 +852,27 @@ Product::with('saleItems')
 
 **✅ Using Query Builder - Recomended**
 
-
+```php
+public function topSellingProducts()
+{
+    return DB::table('product_sale')
+        ->join('products', 'product_sale.product_id', '=', 'products.id')
+        ->select(
+            'products.id',
+            'products.name',
+            DB::raw('SUM(product_sale.quantity) as total_sold'),
+            DB::raw('SUM(product_sale.amount) as total_revenue'),
+            DB::raw('COUNT(product_sale.id) as total_lines')
+        )
+        ->groupBy(
+            'products.id',
+            'products.name'
+        )
+        ->orderByDesc('total_sold')
+        ->limit(10)
+        ->get();
+}
+```
 
 
 ```php
@@ -828,6 +883,15 @@ DB::table('sale_items')
     ->orderByDesc('total_sold')
     ->get();
 ```
+
+➡️ Laravel Logs Evidence
+
+![Query Builder Test](screenshots/report-2-query-builder.png)
+
+1 query executed
+- JOIN + GROUP BY + SUM + COUNT
+
+All aggregation handled at database level
 
 <!-- #endregion -->
 
