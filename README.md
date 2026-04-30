@@ -6,8 +6,8 @@
 
 ![MIT License](https://img.shields.io/badge/license-MIT-green)
 ![PHP8+](https://img.shields.io/badge/Language-PHP8+-blue?logo=php)
-![Laravel](https://img.shields.io/badge/backend-Laravel-red)
-![MySQL](https://img.shields.io/badge/database-MySQL-yellow)
+![Laravel](https://img.shields.io/badge/backend-Laravel-red?logo=laravel)
+![MySQL](https://img.shields.io/badge/database-MySQL-yellow?logo=mysql)
 
 ---
 
