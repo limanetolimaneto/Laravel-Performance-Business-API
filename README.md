@@ -694,12 +694,12 @@ Controller → SaleService → SaleCreated Event → Listener → Job (SendSaleC
 
 <!-- #endregion -->
 
-<br>
+---
 
 <!-- #region report_1 -->
 
 <details>
-    <summary> <b> Report 1 → Sales Summary Report. </b> </summary>
+    <summary> <b> REPORT 1 → SSALES SUMMARY REPORT. </b> </summary>
 
 <br>
 
@@ -799,7 +799,7 @@ public function salesSummary(Request $request)
 
 <!-- #endregion -->
 
-<br>
+---
 
 <!-- #region report_2 -->
 
@@ -910,7 +910,7 @@ All aggregation handled at database level
 
 <!-- #endregion -->
 
-<br>
+---
 
 <!-- #region key_insight -->
 
