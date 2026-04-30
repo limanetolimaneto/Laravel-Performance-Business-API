@@ -694,7 +694,7 @@ Controller → SaleService → SaleCreated Event → Listener → Job (SendSaleC
 
 <!-- #endregion -->
 
----
+<br>
 
 <!-- #region report_1 -->
 
@@ -761,7 +761,7 @@ DB::table('sales')
 
 <!-- #endregion -->
 
----
+<br>
 
 <!-- #region report_2 -->
 
@@ -843,14 +843,17 @@ All aggregation handled at database level
 
 <!-- #endregion -->
 
----
+<br>
 
 <!-- #region key_insight -->
 
 <details>
     <summary> <b> ➡️ Key insight <b> </summary>
 
-Eloquent is optimized for domain modeling, while Query Builder is better suited for analytical workloads. By delegating aggregation logic to the database layer, we reduce PHP-side processing, minimize memory usage, and improve scalability for reporting scenarios.
+<br>
+
+Eloquent is optimized for domain modeling, while Query Builder is better suited for analytical workloads. 
+By delegating aggregation logic to the database layer, we reduce PHP-side processing, minimize memory usage, and improve scalability for reporting scenarios.
 
 </details>
 
