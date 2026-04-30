@@ -705,6 +705,7 @@ Controller → SaleService → SaleCreated Event → Listener → Job (SendSaleC
 
 <!-- #region report_1_eloquent -->
 
+
 **❌ Using Eloquent - Not recomended**
 
 *app/Services/ReportService.php*
@@ -806,7 +807,10 @@ public function salesSummary(Request $request)
 
 <!-- #region report_2_eloquent -->
 
-**❌ Using Eloquent - Not recomended**
+<details>
+    <summary>**❌ Using Eloquent - Not recomended**</summary>
+
+<br>
 
 *app/Services/ReportService.php*
 
@@ -846,11 +850,18 @@ public function topSellingProducts()
 
 Total: multiple hydration cycles
 
+</details>
+
 <!-- #endregion -->
 
 <!-- #region report_2_query_builder -->
 
-**✅ Using Query Builder - Recomended**
+<details>
+    <summary>**✅ Using Query Builder - Recomended**</summary>
+
+<br>
+
+*app/Services/ReportService.php*
 
 ```php
 public function topSellingProducts()
@@ -874,16 +885,6 @@ public function topSellingProducts()
 }
 ```
 
-
-```php
-DB::table('sale_items')
-    ->join('products', ...)
-    ->selectRaw('products.name, SUM(quantity) as total_sold')
-    ->groupBy('products.name')
-    ->orderByDesc('total_sold')
-    ->get();
-```
-
 ➡️ Laravel Logs Evidence
 
 ![Query Builder Test](screenshots/report-2-query-builder.png)
@@ -892,6 +893,8 @@ DB::table('sale_items')
 - JOIN + GROUP BY + SUM + COUNT
 
 All aggregation handled at database level
+
+</details>
 
 <!-- #endregion -->
 
