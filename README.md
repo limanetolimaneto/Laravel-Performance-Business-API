@@ -548,7 +548,7 @@ The logout operations revoke tokens directly from the database.
 <!-- #region Asynchronous_Job_Execution_with_Laravel_Queues -->
 
 <details>
-    <summary> <b> D.S_4 Comparing synchronous email sending vs queued job processing in Laravel. </b> </summary>
+    <summary> <b> D.S 4 Comparing synchronous email sending vs queued job processing in Laravel. </b> </summary>
 <br>
 
 **Why moving email sending from synchronous execution to queued jobs improves performance, scalability, and user experience in Laravel applications.**
@@ -683,7 +683,7 @@ Controller → SaleService → SaleCreated Event → Listener → Job (SendSaleC
 <!-- #region report_generation_optimization -->
 
 <details>
-    <summary> <b> D.S_5 Where Query Builder is often superior to Eloquent. </b> </summary>
+    <summary> <b> D.S 5 Where Query Builder is often superior to Eloquent. </b> </summary>
 
 <br>
 
@@ -699,7 +699,7 @@ Controller → SaleService → SaleCreated Event → Listener → Job (SendSaleC
 <!-- #region report_1 -->
 
 <details>
-    <summary> <b> REPORT 1 → SSALES SUMMARY REPORT. </b> </summary>
+    <summary> <b> REPORT 1 → SALES SUMMARY REPORT. </b> </summary>
 
 <br>
 
@@ -710,31 +710,12 @@ Controller → SaleService → SaleCreated Event → Listener → Job (SendSaleC
 
 <br>
 
-*app/Services/ReportService.php*
+*Eloquent (high-level abstraction) 'app/Services/ReportService.php'*
 
 ```php
-public function salesSummary(Request $request)
-{
-    ...
-    return Sale::with(['client', 'products'])
-                ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
-                    $query->whereBetween('created_at', [
-                        $startDate,
-                        $endDate
-                    ]);
-                })
-                ->orderByDesc('created_at')
-                ->get()
-                ->map(function ($sale) {
-                    return [
-                        'id' => $sale->id,
-                        'client_name' => $sale->client->name,
-                        'total_amount' => $sale->total_amount,
-                        'created_at' => $sale->created_at,
-                        'total_items' => $sale->products->count(),
-                    ];
-                });
-}
+Sale::with(['client', 'products'])
+    ->whereBetween('created_at', [$start, $end])
+    ->get();
 ```
 
 ➡️ Laravel Logs Evidence
@@ -754,37 +735,18 @@ public function salesSummary(Request $request)
 
 <br>
 
-*app/Services/ReportService.php*
+*Query Builder (database-level aggregation) 'app/Services/ReportService.php'*
 
 ```php
-public function salesSummary(Request $request)
-{
-    ...
-    return DB::table('sales')
-            ->join('clients', 'sales.client_id', '=', 'clients.id')
-            ->join('product_sale', 'sales.id', '=', 'product_sale.sale_id')
-            ->select(
-                'sales.id',
-                'clients.name as client_name',
-                'sales.total_amount',
-                'sales.created_at',
-                DB::raw('COUNT(product_sale.id) as total_items')
-            )
-            ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
-                $query->whereBetween('sales.created_at', [
-                    $startDate,
-                    $endDate
-                ]);
-            })
-            ->groupBy(
-                'sales.id',
-                'clients.name',
-                'sales.total_amount',
-                'sales.created_at'
-            )
-            ->orderByDesc('sales.created_at')
-            ->get();
-}
+DB::table('sales')
+    ->join('clients', 'sales.client_id', '=', 'clients.id')
+    ->join('product_sale', 'sales.id', '=', 'product_sale.sale_id')
+    ->select(
+        'sales.id',
+        'clients.name',
+        DB::raw('COUNT(product_sale.id) as total_items')
+    )
+    ->groupBy('sales.id', 'clients.name');
 ```
 
 ➡️ Laravel Logs Evidence
@@ -804,7 +766,7 @@ public function salesSummary(Request $request)
 <!-- #region report_2 -->
 
 <details>
-    <summary> <b> Report 2 → Top Selling Products Report. </b> </summary>
+    <summary> <b> REPORT 2  → TOP SELLING PRODUCTS REPORT. </b> </summary>
 
 <br>
 
@@ -823,28 +785,8 @@ public function salesSummary(Request $request)
 *app/Services/ReportService.php*
 
 ```php
-public function topSellingProducts()
-{
-    return Product::with(['sales.products'])
-        ->get()
-        ->map(function ($product) {
-
-            $pivotItems = $product->sales->flatMap(function ($sale) use ($product) {
-                return $sale->products->where('id', $product->id);
-            });
-
-            return [
-                'id' => $product->id,
-                'name' => $product->name,
-                'total_sold' => $pivotItems->sum('pivot.quantity'),
-                'total_revenue' => $pivotItems->sum('pivot.amount'),
-                'total_lines' => $pivotItems->count(),
-            ];
-        })
-        ->sortByDesc('total_sold')
-        ->take(10)
-        ->values();
-}
+Product::with('sales')
+    ->get();
 ```
 
 ➡️ Laravel Logs Evidence
@@ -872,25 +814,14 @@ Total: multiple hydration cycles
 *app/Services/ReportService.php*
 
 ```php
-public function topSellingProducts()
-{
-    return DB::table('product_sale')
-        ->join('products', 'product_sale.product_id', '=', 'products.id')
-        ->select(
-            'products.id',
-            'products.name',
-            DB::raw('SUM(product_sale.quantity) as total_sold'),
-            DB::raw('SUM(product_sale.amount) as total_revenue'),
-            DB::raw('COUNT(product_sale.id) as total_lines')
-        )
-        ->groupBy(
-            'products.id',
-            'products.name'
-        )
-        ->orderByDesc('total_sold')
-        ->limit(10)
-        ->get();
-}
+DB::table('product_sale')
+    ->join('products', 'product_sale.product_id', '=', 'products.id')
+    ->select(
+        'products.name',
+        DB::raw('SUM(product_sale.quantity) as total_sold'),
+        DB::raw('SUM(product_sale.amount) as total_revenue')
+    )
+    ->groupBy('products.name');
 ```
 
 ➡️ Laravel Logs Evidence
