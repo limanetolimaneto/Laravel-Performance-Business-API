@@ -1,8 +1,8 @@
-# Laravel Performance Business API
+# Laravel Backend Performance & Scalability API
 
 <!-- #region  Presentation -->
 
-*This project simulates a real-world business management system with a focus on performance, clean architecture, and asynchronous processing.*
+*A backend engineering project built with Laravel, focused on performance, scalability, and real-world architectural decisions commonly found in production-grade systems.*
 
 ![MIT License](https://img.shields.io/badge/license-MIT-green)
 ![PHP8+](https://img.shields.io/badge/Language-PHP8+-blue?logo=php)
@@ -11,14 +11,14 @@
 
 ---
 
-A high-performance backend system built with Laravel, designed to demonstrate advanced backend engineering concepts including best practices using: 
+This project demonstrates how to design and optimize API-driven applications using:
 
-- Query optimization;
-- Sanctum authentication;
-- Queued Email System;
-- Report Generation Optimization
+- Query optimization and database-level aggregation
+- Laravel Sanctum authentication for secure API access
+- Asynchronous processing with queued jobs (emails)
+- High-performance report generation (Eloquent vs Query Builder analysis)
 
-It is designed as a portfolio piece targeting backend and Laravel developer roles on platforms such as Upwork.
+>Built to demonstrate backend engineering capabilities with a strong focus on performance, scalability, and system design decisions expected in modern production APIs.
 
 <!-- #endregion -->
 
@@ -30,11 +30,11 @@ It is designed as a portfolio piece targeting backend and Laravel developer role
 
 - PHP 8.3
 - Laravel 11+
-- Laravel Sanctum
-- MySQL
-- Laravel Queues
-- Laravel Debugbar
-- Postman
+- MySQL (Query Optimization & Aggregations)
+- Laravel Sanctum (API Authentication)
+- Laravel Queues (Asynchronous Processing)
+- Laravel Debugbar / Logging (Performance Analysis & Profiling)
+- Postman (API Testing & Validation)
 
 <!-- #endregion -->
 
